@@ -9,5 +9,7 @@ export default {
     user: process.env.USER,
     db_port: process.env.DB_PORT,
     password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    database: process.env.DATABASE,
+    email_api_key: process.env.EMAIL_API_KEY,
+    secret_key_jwt: process.env.SECRET_KEY_JWT,
 }

@@ -22,3 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
+
+#Scripts para la creacion de la DB
+/src/utils/scripts.js

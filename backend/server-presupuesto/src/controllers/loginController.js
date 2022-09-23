@@ -1,0 +1,76 @@
+import { connectDB } from '../database/db';
+import { validationResult } from 'express-validator';
+import bcript from 'bcryptjs';
+import config from '../settings';
+//import { Jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+
+const { secret_key_jwt } = config;
+
+export const loginController = async (req, res, next) => {
+
+    const pool = await connectDB(); // DB conection to get the pool
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(500).json({ errors: errors.array()})
+    }
+    // Extract values
+    const { userEmail, userPassword } = req.body;
+
+    try {
+        
+        let query = ` SELECT * FROM "userBudget" WHERE "userEmail" = '${userEmail}' `;
+        const result = await pool.query(query);
+        
+        if(result.rowCount === 0){
+            return res.json({ msg: 'Please verify you email address.'})
+        }
+        // Copy of the user founded
+        const userFound = {...result.rows[0]};
+
+        // Verify the user has its account verified
+        if(userFound.userToken !== '' && userFound.isAuthenticated === '0'){
+            console.log(userFound.userToken, ' validacion')
+            return res.json({ msg: 'Please verify your account to continue!'});
+        }
+
+        // Verify that the password is correct
+        const correctPassword = await bcript.compare( userPassword,  userFound.userPassword);
+        if(!correctPassword){
+            res.json({msg: 'Please verify your password to continue!'});
+        }
+
+        // payload to generate the jwt
+        const payload = {
+            user : {
+                id: userFound.userID,
+                userName: userFound.userName,
+                userLastName: userFound.userLastName,
+                // email ? 
+            }
+        }
+
+         // Return data to login
+        const userData = {};
+        userData.userID = userFound.userID,
+        userData.userName = userFound.userName,
+        userData.userLastName = userFound.userLastName,
+        userData.userEmail = userFound.userEmail,
+        userData.createdAt = userFound.createdAt
+        // Generate the JWT
+        jwt.sign(payload, secret_key_jwt, {
+            expiresIn: 86400, // Equivalent to one day
+        }, (error, token) => {
+            if(error) throw error;
+
+            // Token generated return the token and the user information
+            res.status(200);
+            res.json({ token: token, user: userData, msg: 'Login successfully logged in' });
+        })
+
+    } catch (error) {
+        console.log(error, 'Unable to login ')
+        res.sendSatatus(500).json({ msg: 'Unable to login to your account'})
+    }
+}

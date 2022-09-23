@@ -1,7 +1,11 @@
 import express from 'express';
 import config from './src/settings';
 import cors from 'cors';
-import userRoutes from './src/routes/user';
+import createAccount from './src/routes/createAccountRoutes';
+import confirmAccountRoute from './src/routes/confirmAccountRoutes';
+import loginRoute from './src/routes/loginRoute';
+import budgetRoute from './src/routes/budgetRouter';
+import { checkAuthUser } from './src/middlewares/checkAuthUser';
 
 // Define the app
 const app = express();
@@ -31,7 +35,12 @@ app.use(express.json({ extended: true}));
 const port = config.port;
 
 // Routes will be created here
-app.use('/api/users', userRoutes);
+app.use('/api/create-account', createAccount);
+app.use('/api/confirm-account', confirmAccountRoute);
+app.use('/api/login', loginRoute);
+
+// Protected Routes for making CRUD Operantions
+app.use('/api/budget', checkAuthUser, budgetRoute);
 
 // Server
 app.listen( (port), () => {
