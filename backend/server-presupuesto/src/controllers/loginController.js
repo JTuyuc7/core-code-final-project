@@ -61,6 +61,7 @@ export const loginController = async (req, res, next) => {
         // Generate the JWT
         jwt.sign(payload, secret_key_jwt, {
             expiresIn: 86400, // Equivalent to one day
+            //expiresIn: 60 // 1 minute for test
         }, (error, token) => {
             if(error) throw error;
 
@@ -72,5 +73,8 @@ export const loginController = async (req, res, next) => {
     } catch (error) {
         console.log(error, 'Unable to login ')
         res.sendSatatus(500).json({ msg: 'Unable to login to your account'})
+    }finally {
+        // Close the connection
+        await pool.end();
     }
 }
