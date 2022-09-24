@@ -5,6 +5,7 @@ import createAccount from './src/routes/createAccountRoutes';
 import confirmAccountRoute from './src/routes/confirmAccountRoutes';
 import loginRoute from './src/routes/loginRoute';
 import budgetRoute from './src/routes/budgetRouter';
+import incomeExpenseRoute from './src/routes/incomeExpenseRoute';
 import { checkAuthUser } from './src/middlewares/checkAuthUser';
 
 // Define the app
@@ -41,6 +42,7 @@ app.use('/api/login', loginRoute);
 
 // Protected Routes for making CRUD Operantions
 app.use('/api/budget', checkAuthUser, budgetRoute);
+app.use('/api/incomes-expenses', checkAuthUser, incomeExpenseRoute);
 
 // Server
 app.listen( (port), () => {
