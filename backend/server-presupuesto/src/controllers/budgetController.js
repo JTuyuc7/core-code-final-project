@@ -10,7 +10,7 @@ export const getAllBudgetAccounts = async (req, res, next) => {
     const { userID } = req.user;
 
     try {
-        let queryAccounts = `SELECT "accountId", "accountNumber", "accountType" FROM "userAccounts" WHERE "belongsTo" = '${userID}'`;
+        let queryAccounts = `SELECT "accountId", "accountNumber", "amount", "accountType" FROM "userAccounts" WHERE "belongsTo" = '${userID}'`;
         const resultAccounts = await pool.query(queryAccounts);
         
         if(resultAccounts.rowCount === 0){
