@@ -70,6 +70,10 @@ export const createBudgetAccount = async (req, res, next) => {
     if(hasAlreadyAccountType.rowCount === 1) {
         return res.json({ msg: `You have already a ${accountType} created, please select another type.`})
     }
+
+    if(amount <= 0) {
+        return res.json({ msg: 'Account should created with a positive amount or default 0'});
+    }
     // Create the account number
     const accountNumber = generateAccountNumber();
     try {
