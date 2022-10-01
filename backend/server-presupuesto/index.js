@@ -21,7 +21,7 @@ const corsOptions = {
         if(whiteLists.includes( origin )) {
             callback(null, true)
         }else {
-            callback( new Error(`The URL provided is not a valid URL`))
+            callback( new Error(`The URL provided is not a valid URL`)) 
         }
     }
 }
