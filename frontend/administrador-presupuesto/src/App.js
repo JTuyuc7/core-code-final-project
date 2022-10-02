@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoutes from './utils/ProtectedRoutes.jsx'
 
@@ -18,7 +17,7 @@ const App = () => {
 
   return(
     <>
-      <div>
+      <div >
         <Routes >
           { /* Protected Routes once login */}
             <Route path='/' element={<ProtectedRoutes />} >
