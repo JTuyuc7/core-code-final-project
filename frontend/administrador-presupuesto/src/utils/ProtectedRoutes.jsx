@@ -18,7 +18,7 @@ const ProtectedRoutes = () => {
 
     return(
         isAuthDummy ? (
-            <main>
+            <main className='flex-1 bg-slate-900 h-40'>
                 <NavBar onlogoutTest={onLogOout} />
                 <div>
                     <Outlet />
