@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import ProtectedRoutes from './utils/ProtectedRoutes.jsx'
+import ProtectedRoutes from './utils/ProtectedRoutes.jsx';
+import PublicRoutes from './utils/PublicRoutes.jsx';
 
 // Protected routes
 import Home from './components/pages/ProtectedPages/Home.jsx';
@@ -19,14 +20,17 @@ const App = () => {
     <>
       <div >
         <Routes >
-          { /* Protected Routes once login */}
-            <Route path='/' element={<ProtectedRoutes />} >
-              <Route index path='/' exact element={<Home />} />
+            {/* Public Routes */}
+            <Route path='/' element={<PublicRoutes />} >
+              <Route index element={<Login />} />
+              <Route path='/create-account' element={<CreateAccount />} />
+              <Route path='/confirm-account/:token' element={ <ConfirmAccount />} />
             </Route>
 
-            <Route path='/login' element={<Login />} />
-            <Route path='/create-account' element={<CreateAccount />} />
-            <Route path='/confirm-account/:token' element={ <ConfirmAccount />} />
+            { /* Protected Routes */}
+            <Route path='/budget' element={<ProtectedRoutes />} >
+              <Route index path='/budget' exact element={<Home />} />
+            </Route>
 
             <Route path='*' element={<NotFound />} />
         </Routes>

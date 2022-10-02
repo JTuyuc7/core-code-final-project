@@ -6,7 +6,7 @@ const ProtectedRoutes = () => {
 
     // Dummy State for authentication
     // TODO change the logig
-    const [ isAuthDummy, setIsAuthDummy ] = useState(true);
+    const [ isAuthDummy, setIsAuthDummy ] = useState(false);
 
     const onLogOout = () => {
         setIsAuthDummy(false)
@@ -24,7 +24,7 @@ const ProtectedRoutes = () => {
                     <Outlet />
                 </div>
             </main>
-        ) : <Navigate to={'/login'} />
+        ) : <Navigate to={'/'} />
     )
 }
 
