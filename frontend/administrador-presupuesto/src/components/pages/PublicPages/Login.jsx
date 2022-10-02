@@ -6,6 +6,11 @@ import { TextField, FormControl } from '@mui/material';
 
 const Login = () => {
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Verificar inicio de sesion');
+    }
+
     return(
         <>
             <MainContainer >
@@ -13,7 +18,9 @@ const Login = () => {
                     <Img src={bgImg} alt='Logo' />
                 </ImageContainer>
 
-                <FormMainContainer>
+                <FormMainContainer
+                    onSubmit={handleSubmit}
+                >
                     <FormContainer >
                         <Title>Log in</Title>
 
@@ -22,8 +29,9 @@ const Login = () => {
                                 <FormControl fullWidth >
                                     <TextField 
                                         required
-                                        id='outlined-required'
+                                        id='email'
                                         label='Email address'
+                                        type='email'
                                         style={{ marginTop: '30px'}}
                                     />
                                 </FormControl>
@@ -31,15 +39,16 @@ const Login = () => {
                                 <FormControl fullWidth >
                                     <TextField 
                                         required
-                                        id='outlined-required'
+                                        id='password'
                                         label='Password'
+                                        type='password'
                                         style={{ marginTop: '30px'}}
                                     />
                                 </FormControl>
                             </ContentContainer>
 
                             <ButtonContainer>
-                                <Button>Log in</Button>
+                                <Button type='submit'>Log in</Button>
                             </ButtonContainer>
 
                         </ValuesContainer>

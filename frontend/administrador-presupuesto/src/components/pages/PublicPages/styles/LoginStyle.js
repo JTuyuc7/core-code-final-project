@@ -55,7 +55,7 @@ export const Img = styled.img`
     }
 `;
 
-export const FormMainContainer = styled.div`
+export const FormMainContainer = styled.form`
     width: 100%;
     height: 100%;
     display: flex;
@@ -64,15 +64,15 @@ export const FormMainContainer = styled.div`
 `;
 
 export const FormContainer = styled.div`
-    width: 70%;
+    width: 60%;
     height: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1rem;
     border-radius: 15px;
-    box-shadow: 3px 5px 5px 3px rgba(116,47,246,0.2);
-    border: 2px solid(#742ff6);
+    box-shadow: 5px 5px 5px 3px rgba(116,47,246,0.2);
+    border: 0.5px solid #742ff6;
 `;
 
 export const ValuesContainer = styled.div`
@@ -83,7 +83,7 @@ export const ValuesContainer = styled.div`
     margin: 0 10px;
     flex-direction: column;
     gap: 20px;
-    padding-top: 60px;
+    padding-top: 50px;
     @media( max-width: 768px) {
         padding-top: 20px;
     }
