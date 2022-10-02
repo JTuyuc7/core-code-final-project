@@ -35,28 +35,23 @@ export const ImageContainer = styled.div`
     }
 
     @media( max-width: 828px) {
-        width: 60%;
+        width: 40%;
     }
 
     @media( max-width: 480px) {
-        background-color: pink;
+        width: 50%;
         margin: 0 auto;
     }
 `;
 
 export const Img = styled.img`
-    height: 650px;
     width: 95%;
     object-fit:cover;
     @media( max-width: 768px) {
-        width: 40%;
-        height: 200px;
+        width: 90%;
     }
-
     @media( max-width: 828px) {
-        background-color: gold;
         width: 65%;
-        height: 180px;
     }
 `;
 
