@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import bgImage from '../../../assets/imgs/bgImage1.jpg';
 
+/*
 const primary = '#742ff6'; 
 const secondary = '#CFBDEC';
 const darkBlack = '#252525';
 const mainWhite = '#FFF';
-
+*/
 export const MainContainer = styled.div`
     height: 100vh;
     margin: 0 0;
