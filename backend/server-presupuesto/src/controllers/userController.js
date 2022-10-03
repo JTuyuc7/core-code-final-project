@@ -22,9 +22,9 @@ export const createUser = async (req, res, next) => {
 
         const result = await pool.query(query);
 
-        //if(result.rowCount === 1 ){
-        //    return res.status(400).json({ msg: 'The email prvided has already been taken.'})
-        //}
+        if(result.rowCount >= 1 ){
+            return res.status(400).json({ msg: 'The email prvided has already been taken.'})
+        }
         // Hashe the user password once we validate this is a new user
         const salt = await bcriptjs.genSalt(10);
         const hashPasword = await bcriptjs.hash(userPassword, salt);
@@ -42,7 +42,7 @@ export const createUser = async (req, res, next) => {
             res.status(200).json({msg: 'Your account has created correctly, please check your email to confirm your account.'})
             const { userName, userEmail, userToken, userLastName } = newUser.rows[0];
 
-            sendMailConfirmation({
+            const msg = await sendMailConfirmation({
                 name: userName,
                 lastName: userLastName,
                 email: userEmail,

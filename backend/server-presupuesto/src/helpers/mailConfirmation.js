@@ -7,9 +7,8 @@ const { email_api_key, front_url } = config;
 sgMail.setApiKey(email_api_key);
 
 export const sendMailConfirmation = async (data) => {
-
+    let msgSent = '';
     const { name, lastName, email, token } = data;
-
     const msg = {
         to: email,
         from: 'tuyucjames@gmail.com',
@@ -23,7 +22,13 @@ export const sendMailConfirmation = async (data) => {
         `,
     }
 
-    sgMail.send(msg)
-    .then( (res) => console.log(res, 'Mail sent'))
-    .catch( (err) => console.log(err, 'mmm email not sent'))
+    msgSent = await sgMail.send(msg)
+    .then( (res) => {
+        return msgSent = 'Mail sent correctly.'
+    })
+    .catch( (err) => {
+        return msgSent = 'Unable to sent the email.'
+    })
+
+    return msgSent;
 }
