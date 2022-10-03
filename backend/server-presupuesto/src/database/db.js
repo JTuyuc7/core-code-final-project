@@ -1,11 +1,11 @@
 import { Client } from 'pg';
 import config from '../settings';
 
-const { host, user, db_port, password, database } = config;
+const { host, user_db, db_port, password, database } = config;
 
 const dbSettings = {
     host: host,
-    user: user,
+    user: user_db,
     port: db_port,
     password: password,
     database: database
