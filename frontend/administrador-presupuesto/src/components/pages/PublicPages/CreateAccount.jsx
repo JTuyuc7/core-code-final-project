@@ -1,17 +1,43 @@
+import React, { useState, useRef, useEffect } from 'react';
 import { FormControl, TextField } from '@mui/material';
 import ImgCreateAccount from '../../assets/imgs/bgImage1.jpg';
 import { NavLink } from 'react-router-dom';
-import React from 'react';
 import { Button, AccountContainer, AccountImg, ButtonContainer, MainContainer, FormContentContainer, ImageContentContainer, ContentContainer, ImageContent, Title, NameLastNameContainer, EmailContainer, PasswordContainer } from './styles/CreateAccountStyles';
 
 const CreateAccount = () => {
 
+    const [ valuesForm, setValuesForm ] = useState({
+        name: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPass: ''
+    });
+    const { name, lastName, email, password, confirmPass } = valuesForm;
+
+    const nameInputRef = useRef();
+    const lastNameInputRef = useRef();
+    const emailInputRef = useRef();
+    const passwordInputRef = useRef();
+    const confirmPasswordRed = useRef();
+
+    console.log(nameInputRef, 'referencia');
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const currentValueName = nameInputRef.current.value;
+        console.log(currentValueName, 'nombre-/*-*--*-')
+    }
+
+    console.log(valuesForm, 'datos ');
+
     return(
         <>
             <MainContainer>
-                <FormContentContainer>
+                <FormContentContainer
+                    onSubmit={handleSubmit}
+                >
                     <ContentContainer >
-                    <Title>Sign up</Title>
+                        <Title>Sign up</Title>
 
                         <NameLastNameContainer >
                             <FormControl fullWidth >
@@ -20,7 +46,9 @@ const CreateAccount = () => {
                                     id='name'
                                     label='Name'
                                     type='text'
-                                    
+                                    value={name}
+                                    onChange={ (e) => setValuesForm({ ...valuesForm, name : e.target.value })}
+                                    ref={nameInputRef}
                                 />
                             </FormControl>
                             <FormControl fullWidth >
@@ -29,7 +57,8 @@ const CreateAccount = () => {
                                     id='lastName'
                                     label='Last Name'
                                     type='text'
-                                    
+                                    value={lastName}
+                                    onChange={ (e) => setValuesForm({ ...valuesForm, lastName : e.target.value })}
                                 />
                             </FormControl>
                         </NameLastNameContainer>
