@@ -17,7 +17,7 @@ export const sendMailConfirmation = async (data) => {
         html: `
             <p>Hi, ${name} ${lastName}, just one step to verify your account </p>
             <p>Just click the link below</p>
-            <a href="${front_url}/confirm/account/${token}">Verify your account</a>
+            <a href="${front_url}/confirm-account/${token}">Verify your account</a>
             <p>Something weird, reported at: <span>tuyucjames@gmail.com</span></p>
         `,
     }

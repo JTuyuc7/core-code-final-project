@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUser } from '../controllers/userController';
+import { createUser, verifyUniqueEmail } from '../controllers/userController';
 import { check } from 'express-validator';
 const router = Router();
 
@@ -14,5 +14,13 @@ router.post('/',
     ],
     createUser
 );
+
+// Verify the email
+router.post('/check-email',
+    [
+        check('email', 'Please enter an email address').isEmail().not().isEmpty(),
+    ],
+    verifyUniqueEmail
+)
 
 export default router;
