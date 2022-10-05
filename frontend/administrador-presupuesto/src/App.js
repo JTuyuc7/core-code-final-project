@@ -2,6 +2,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoutes from './utils/ProtectedRoutes.jsx';
 import PublicRoutes from './utils/PublicRoutes.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Protected routes
 import Home from './components/pages/ProtectedPages/Home.jsx';
@@ -34,6 +36,8 @@ const App = () => {
 
             <Route path='*' element={<NotFound />} />
         </Routes>
+
+        <ToastContainer />
       </div>
     </>
   )
