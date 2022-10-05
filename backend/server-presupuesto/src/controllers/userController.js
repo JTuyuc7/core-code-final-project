@@ -57,3 +57,43 @@ export const createUser = async (req, res, next) => {
         await pool.end(); // Close the conection to DB
     }
 }
+
+// Check if the email is already taken
+export const verifyUniqueEmail = async (req, res) => {
+
+    // Db connection
+    const pool = await connectDB();
+
+    // Verify errors
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.json({ errors: errors.array() })
+    }
+
+    // Validate a valid email is provided
+    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+
+    // Extraact values
+    const { email } = req.body;
+
+    // Email validation
+    if(!emailRegex.test(email)) {
+        return res.json({ msg: 'Please enter a valid email.'})
+    }
+
+    let lowerEmail = email.toLowerCase();
+    let queryEmail = `SELECT * FROM "userBudget" WHERE "userBudget"."userEmail" = '${lowerEmail}'`;
+    try {
+        const result = await pool.query(queryEmail);
+        
+        if(result.rowCount >= 1) {
+            return res.json({ isTaken: 1, msg: 'Please choose a different email' })
+        }
+
+        return res.status(200).json({ isTaken: 0, msg: 'Valid email address'})
+        
+    } catch (error) {
+        console.log(error, 'Server error, unable to complete your request')
+        res.status(500).json({ msg: 'Server error, unable to complete your request'})
+    }
+}
