@@ -3,6 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     // State for users
     isLoadingAuth: false,
+
+    // State for checking email
+    isTakenEmail: null,
+    isTakenMsg: ''
 }
 
 export const userSlice = createSlice({
@@ -11,6 +15,14 @@ export const userSlice = createSlice({
     reducers: {
         dispatchLoading(state, action){
             state.isLoadingAuth = action.payload
+        },
+        checkTakenEmail(state, action){
+            state.isTakenEmail = action.payload.isTaken;
+            state.isTakenMsg = action.payload.msg
+        },
+        clearTakenEmail(state, action){
+            state.isTakenEmail = null;
+            state.isTakenMsg = '';
         }
     }
 })

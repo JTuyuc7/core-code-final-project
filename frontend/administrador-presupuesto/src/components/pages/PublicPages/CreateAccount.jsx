@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createNewUser } from '../../../services/userServices';
+import { createNewUser, validateTakenEmail } from '../../../services/userServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormControl, TextField } from '@mui/material';
 import ImgCreateAccount from '../../assets/imgs/bgImage1.jpg';
@@ -9,9 +9,9 @@ import CustomSpinner from '../../UI/CustomSpinner';
 
 const CreateAccount = () => {
     const dispatch = useDispatch();
-    const { isLoadingAuth } = useSelector( (state) => state.user)
+    const { isLoadingAuth, isTakenEmail, isTakenMsg } = useSelector( (state) => state.user);
     // Email Validation 
-    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+    const emailRegex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
     const [ valuesForm, setValuesForm ] = useState({
         name: '',
         lastName: '',
@@ -32,7 +32,7 @@ const CreateAccount = () => {
     const { name, lastName, email, password, confirmPass } = valuesForm;
     // Values Error
     const { nameError, lastNameError, emailError, passwordError, confirmPasswordError } = errorValues;
-    const isDisabled = !name || !lastName || !email || !password || !confirmPass || password !== confirmPass;
+    const isDisabled = !name || !lastName || !email || !password || !confirmPass || password !== confirmPass || isTakenEmail === 1;
 
     // Vlidate email
     useEffect(() => {
@@ -43,11 +43,10 @@ const CreateAccount = () => {
                     setIsInvalid(true)
                 }else {
                     setIsInvalid(false)
-                    console.log('aca*-*-- already taken?');
+                    dispatch(validateTakenEmail({ email: email}))
                 }
             }
         }, 1000)
-
         return () => {
             clearTimeout(timer);
         }
@@ -62,6 +61,22 @@ const CreateAccount = () => {
         userObj.userPassword = password;
         // send values to make the request
         dispatch(createNewUser(userObj))
+
+        setValuesForm({
+            name: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPass: ''
+        })
+
+        setErrorValues({
+            nameError: false,
+            lastNameError: false,
+            emailError: false,
+            passwordError: false,
+            confirmPasswordError: false,
+        })
     }
 
     return(
@@ -113,8 +128,8 @@ const CreateAccount = () => {
                                     value={email}
                                     onChange={ (e) => setValuesForm({ ...valuesForm, email : e.target.value })}
                                     onBlur={ () => setErrorValues({ ...errorValues, emailError: true })}
-                                    error={ emailError && email === '' ? true : isInvalid }
-                                    helperText={emailError && email  === '' ? 'Email is required' : isInvalid ? 'Email domain invalid' : ''}
+                                    error={ emailError && email === '' ? true : isTakenEmail === 1 ? true : isInvalid }
+                                    helperText={emailError && email  === '' ? 'Email is required' : isInvalid ? 'Email domain invalid' : isTakenMsg !== '' ? isTakenMsg : ''}
                                 />
                             </FormControl>
                         </EmailContainer>
@@ -140,6 +155,7 @@ const CreateAccount = () => {
                                     id='confirmPassword'
                                     label='Confirm Password'
                                     type='password'
+                                    value={confirmPass}
                                     onChange={ (e) => setValuesForm({ ...valuesForm, confirmPass : e.target.value })}
                                     onBlur={ () => setErrorValues({ ...errorValues, confirmPasswordError: true })}
                                     error={ confirmPasswordError && confirmPass === '' ? true : password !== confirmPass && confirmPass !== '' }
