@@ -50,6 +50,45 @@ export const validateTakenEmail = createAsyncThunk(
     }
 )
 
+export const confirmEmailAccount = createAsyncThunk(
+    'validate_email_account',
+    async (token, thunkApi) => {
+        try {
+            thunkApi.dispatch(userActions.dispatchLoading(true))
+            const result = await axiosClient.get(`/api/confirm-account/${token}`);
+            const notificationType = result.data.isValid;
+            thunkApi.dispatch(userActions.confirmEmailAccount(result.data.isValid))
+            if(notificationType === 0){
+                toast.error(result.data.msg, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }
+
+            if( notificationType === 1){
+                toast.success(result.data.msg, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            }
+        } catch (error) {
+            console.log(error, 'Unable to verify your account')
+        }finally {
+            thunkApi.dispatch(userActions.dispatchLoading(false))
+        }
+    }
+)
+
 /*
 
 axios.get(‘route.com', { transformRequest: [(data, headers) => {

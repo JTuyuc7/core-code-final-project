@@ -6,7 +6,12 @@ const initialState = {
 
     // State for checking email
     isTakenEmail: null,
-    isTakenMsg: ''
+    isTakenMsg: '',
+
+    // Validate account token
+    isValidToken: null,
+    isLoadingConfirm: false,
+
 }
 
 export const userSlice = createSlice({
@@ -23,6 +28,9 @@ export const userSlice = createSlice({
         clearTakenEmail(state, action){
             state.isTakenEmail = null;
             state.isTakenMsg = '';
+        },
+        confirmEmailAccount(state, action){
+            state.isValidToken = action.payload;
         }
     }
 })

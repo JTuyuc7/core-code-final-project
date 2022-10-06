@@ -6,9 +6,9 @@ async function checkValidToken (token) {
     let query = `select * from "userBudget" where "userToken" = '${token}'`;
     let result = await pool.query(query);
     if(result.rowCount === 0){
-        return { value: false, user: {} }
+        return { value: 0, user: {} }
     }
-    return { value: true, user: result.rows[0]}
+    return { value: 1, user: result.rows[0]}
 }
 
 export const confirmAccount = async (req, res, next) => {
@@ -25,9 +25,9 @@ export const confirmAccount = async (req, res, next) => {
             const tempUser = {...dataUser.user}
             let queryUpdate = ` UPDATE "userBudget" SET "userToken" = '', "isAuthenticated" = '1' WHERE "userID" = ${tempUser.userID} RETURNING *`;
             await pool.query(queryUpdate);
-            return res.json({ msg: 'Your account has been verified correctly'})
+            return res.json({ msg: 'Your account has been verified correctly', isValid: dataUser.value })
         }else {
-            return res.json({ msg: 'Token does not exist or it is not longer valid.'})
+            return res.json({ msg: 'Token does not exist or it is not longer valid.', isValid: dataUser.value})
         }
 
     } catch (error) {
