@@ -24,7 +24,7 @@ export const loginController = async (req, res, next) => {
         const result = await pool.query(query);
         
         if(result.rowCount === 0){
-            return res.json({ msg: 'Please verify you email address.'})
+            return res.json({ msg: 'Please verify you email address.', codeStatus: 2 }) // status code 2 warning
         }
         // Copy of the user founded
         const userFound = {...result.rows[0]};
@@ -32,13 +32,13 @@ export const loginController = async (req, res, next) => {
         // Verify the user has its account verified
         if(userFound.userToken !== '' && userFound.isAuthenticated === '0'){
             console.log(userFound.userToken, ' validacion')
-            return res.json({ msg: 'Please verify your account to continue!'});
+            return res.json({ msg: 'Please verify your account to continue!', codeStatus: 2});
         }
 
         // Verify that the password is correct
         const correctPassword = await bcript.compare( userPassword,  userFound.userPassword);
         if(!correctPassword){
-            res.json({msg: 'Please verify your password to continue!'});
+            res.json({msg: 'Please verify your password to continue!', codeStatus: 2});
         }
 
         // payload to generate the jwt
@@ -67,7 +67,7 @@ export const loginController = async (req, res, next) => {
 
             // Token generated return the token and the user information
             res.status(200);
-            res.json({ token: token, user: userData, msg: 'Login successfully logged in' });
+            res.json({ token: token, user: userData, msg: 'Login successfully', codeStatus: 1 });
         })
 
     } catch (error) {
