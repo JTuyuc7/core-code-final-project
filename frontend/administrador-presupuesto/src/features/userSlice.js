@@ -12,6 +12,10 @@ const initialState = {
     isValidToken: null,
     isLoadingConfirm: false,
 
+    // Authenticate user
+    isAuthUser: false,
+    userToken: '',
+    userInfo: {},
 }
 
 export const userSlice = createSlice({
@@ -31,6 +35,11 @@ export const userSlice = createSlice({
         },
         confirmEmailAccount(state, action){
             state.isValidToken = action.payload;
+        },
+        storeUserInfo(state, action){
+            state.isAuthUser = true;
+            state.userToken = action.payload.token;
+            state.userInfo = action.payload.user;
         }
     }
 })

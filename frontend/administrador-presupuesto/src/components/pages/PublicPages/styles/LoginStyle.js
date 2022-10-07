@@ -106,7 +106,7 @@ export const ButtonContainer = styled.div`
 
 export const Button = styled.button`
     display: block;
-    background-color: rgba(116,47,246,0.7);
+    background-color: rgba(116,47,246,0.9);
     width: 100%;
     height: 60px;
     border-radius: 10px;
@@ -116,10 +116,15 @@ export const Button = styled.button`
     font-family: Roboto;
     font-size: 18px;
     border: 1px solid rgba(116,47,246,0.8);
-
+    ${({isEnabled}) => isEnabled && `
+        cursor: not-allowed;
+    `}
     &:hover{
         cursor: pointer;
-        background-color: rgba(116,47,246,0.9);
+        ${({isEnabled}) => isEnabled && `
+            cursor: not-allowed;
+        `}
+        background-color: ${ props => props.isEnabled ? 'rgba(116,47,246,0.8)' : 'rgba(116,47,246,0.9)'};
     }
 `;
 

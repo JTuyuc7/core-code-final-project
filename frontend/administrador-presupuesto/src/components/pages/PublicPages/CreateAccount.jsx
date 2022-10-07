@@ -129,7 +129,7 @@ const CreateAccount = () => {
                                     onChange={ (e) => setValuesForm({ ...valuesForm, email : e.target.value })}
                                     onBlur={ () => setErrorValues({ ...errorValues, emailError: true })}
                                     error={ emailError && email === '' ? true : isTakenEmail === 1 ? true : isInvalid }
-                                    helperText={emailError && email  === '' ? 'Email is required' : isInvalid ? 'Email domain invalid' : isTakenMsg !== '' ? isTakenMsg : ''}
+                                    helperText={emailError && email  === '' ? 'Email is required' : isInvalid ? 'Please enter a valid email' : isTakenMsg !== '' ? isTakenMsg : ''}
                                 />
                             </FormControl>
                         </EmailContainer>
