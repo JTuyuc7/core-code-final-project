@@ -1,25 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import NavBar from '../components/UI/NavBar';
 import { useSelector } from 'react-redux';
+import { MainContainer } from './styles/ProtectedStyles';
+import CustomSpinner from '../components/UI/CustomSpinner';
 
 const ProtectedRoutes = () => {
-
-    const { isAuthUser } = useSelector( (state) => state.user );
-    const [ isAuthDummy, setIsAuthDummy ] = useState(false);
-
-    const onLogOout = () => {
-        setIsAuthDummy(false)
-    }
-
+    const { isAuthUser, isLoadingReload } = useSelector( (state) => state.user );
     
-
-    console.log(isAuthDummy, 'estado')
-
     return(
-        isAuthUser ? (
-            <main className='flex-1 bg-slate-900 h-40'>
-                <NavBar onlogoutTest={onLogOout} />
+        isLoadingReload ? (
+            <MainContainer> <CustomSpinner color='#742ff6' size={30} /> </MainContainer>
+        ) : isAuthUser ? (
+            <main >
+                <NavBar />
                 <div>
                     <Outlet />
                 </div>

@@ -16,6 +16,9 @@ const initialState = {
     isAuthUser: false,
     userToken: '',
     userInfo: {},
+
+    // Loading spinner
+    isLoadingReload: false,
 }
 
 export const userSlice = createSlice({
@@ -40,6 +43,18 @@ export const userSlice = createSlice({
             state.isAuthUser = true;
             state.userToken = action.payload.token;
             state.userInfo = action.payload.user;
+        },
+        tokenReloadPage(state, action){
+            state.userToken = action.payload;
+            state.isAuthUser = true;
+        },
+        updateCredentialsReload(state, action){
+            state.isAuthUser = action.payload.isValid;
+            state.userToken = action.payload.token;
+            state.userInfo = action.payload.user;
+        },
+        dispatchLoadingReload(state, action){
+            state.isLoadingReload = action.payload
         }
     }
 })

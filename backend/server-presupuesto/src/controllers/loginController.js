@@ -60,7 +60,7 @@ export const loginController = async (req, res, next) => {
         userData.createdAt = userFound.createdAt
         // Generate the JWT
         jwt.sign(payload, secret_key_jwt, {
-            expiresIn: 86400, // Equivalent to one day
+            expiresIn: '12h', // Equivalent to one day // for development
             //expiresIn: 60 // 1 minute for test
         }, (error, token) => {
             if(error) throw error;

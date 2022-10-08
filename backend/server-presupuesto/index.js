@@ -7,6 +7,7 @@ import loginRoute from './src/routes/loginRoute';
 import budgetRoute from './src/routes/budgetRouter';
 import incomeExpenseRoute from './src/routes/incomeExpenseRoute';
 import transfersDepostisRoute from './src/routes/transfersDepositsRoute';
+import validateTokenRoute from './src/routes/validateToken';
 import { checkAuthUser } from './src/middlewares/checkAuthUser';
 
 // Define the app
@@ -40,6 +41,7 @@ const port = config.port;
 app.use('/api/create-account', createAccount);
 app.use('/api/confirm-account', confirmAccountRoute);
 app.use('/api/login', loginRoute);
+app.use('/api/validate', validateTokenRoute)
 
 // Protected Routes for making CRUD Operantions
 app.use('/api/budget', checkAuthUser, budgetRoute);
