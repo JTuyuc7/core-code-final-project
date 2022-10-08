@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 
 const PublicRoutes = () => {
 
+    console.log('aca para login')
+
     return(
         <main>
             <div>

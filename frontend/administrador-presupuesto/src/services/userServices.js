@@ -82,12 +82,50 @@ export const loginUserService = createAsyncThunk(
                 })
 
                 thunkApi.dispatch(userActions.storeUserInfo(result.data))
+
+                // Save token on localStorage
+                await localStorage.setItem('$userToken', result.data.token )
             }
         } catch (error) {
             console.log(error, 'unable to login to your account')
             toast.error('Something went wrong, try again later')
         }finally {
             thunkApi.dispatch(userActions.dispatchLoading(false));
+        }
+    }
+)
+
+export const isValidToken = createAsyncThunk(
+    'validate_storage_token',
+    async (token, thunkApi) => {
+        try {
+            thunkApi.dispatch(userActions.dispatchLoadingReload(true));
+            const result = await axiosClient.get(`/api/validate/${token}`);
+            //console.log(result.data.result.tokenExp, 'result from backend check token')// datos de tiempo
+            // TODO refactor when token is expired
+            //console.log(result.data, '*-*-*-*-*-**')
+            /*
+            const expiredTime = result.data.result.tokenExp * 1000;
+            const timeNow = new Date(Date.now()).getTime();
+
+            if( timeNow > expiredTime ){
+                console.log('entra en validacion')
+                thunkApi.dispatch(userActions.updateCredentialsReload({ isValid: false, token: '' }));
+                await localStorage.removeItem('$userToken');
+                toast.warning('Please log in again')
+            } 
+            */
+            thunkApi.dispatch(userActions.updateCredentialsReload({ isValid: true, token: token, user: result.data.user }));
+            toast.success(result.data.msg)
+        } catch (error) {
+            console.log(error.response.data, 'Unable to validate the token')
+            toast.warning('Please log in again')
+            thunkApi.dispatch(userActions.updateCredentialsReload({ isValid: false, token: '' }));
+            await localStorage.removeItem('$userToken');
+        }finally{
+            setTimeout(() => {
+                thunkApi.dispatch(userActions.dispatchLoadingReload(false))
+            }, 900)
         }
     }
 )
