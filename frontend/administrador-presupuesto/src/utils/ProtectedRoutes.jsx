@@ -2,22 +2,26 @@ import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import NavBar from '../components/UI/NavBar';
 import { useSelector } from 'react-redux';
-import { MainContainer } from './styles/ProtectedStyles';
+import { MainContainer, MainContentContainer, OutletContainer, PageContent } from './styles/ProtectedStyles';
 import CustomSpinner from '../components/UI/CustomSpinner';
 
 const ProtectedRoutes = () => {
     const { isAuthUser, isLoadingReload } = useSelector( (state) => state.user );
-    
+    //const isLoadingReload = false; // TODO change to the proper variable
+    //const isAuthUser = true;
+
     return(
         isLoadingReload ? (
             <MainContainer> <CustomSpinner color='#742ff6' size={30} /> </MainContainer>
         ) : isAuthUser ? (
-            <main >
+            <MainContentContainer >
                 <NavBar />
-                <div>
-                    <Outlet />
-                </div>
-            </main>
+                <OutletContainer>
+                    <PageContent>
+                        <Outlet />
+                    </PageContent>
+                </OutletContainer>
+            </MainContentContainer>
         ) : <Navigate to={'/'} />
     )
 }
