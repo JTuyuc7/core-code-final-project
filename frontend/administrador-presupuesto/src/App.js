@@ -8,7 +8,13 @@ import { isValidToken } from './services/userServices.js';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Protected routes
-import Home from './components/pages/ProtectedPages/Home.jsx';
+import Home from './components/pages/ProtectedPages/Home/Home.jsx';
+import Incomes from './components/pages/ProtectedPages/Incomes/Incomes.jsx';
+import Expenses from './components/pages/ProtectedPages/Expenses/Expenses.jsx';
+import Movements from './components/pages/ProtectedPages/Movements/Movements.jsx';
+
+// Profile
+import Profile from './components/pages/ProtectedPages/Profile/Profile.jsx';
 
 // Public routes
 import Login from './components/pages/PublicPages/Login';
@@ -50,6 +56,11 @@ const App = () => {
               } />
 
               {/*More routes below this line */}
+              <Route path='incomes' element={<Incomes />} />
+              <Route path='expenses' element={<Expenses />} />
+              <Route path='movements' element={<Movements />} />
+
+              <Route path='profile' element={<Profile />} />
             </Route>
             {/* Public Routes */}
             <Route path='/' element={<PublicRoutes />}>
