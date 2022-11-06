@@ -25,3 +25,8 @@ yarn-error.log*
 
 #Scripts para la creacion de la DB
 /src/utils/scripts.js
+
+# lock json
+package-lock.json
+/package-lock.json
+.package-lock.json

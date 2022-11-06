@@ -25,6 +25,5 @@ export const OutletContainer = styled.div`
 `;
 
 export const PageContent = styled.div`
-    background-color: pink;
-    width: 70%;
+    width: 75%;
 `;

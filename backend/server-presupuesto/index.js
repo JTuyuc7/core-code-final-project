@@ -30,7 +30,7 @@ const corsOptions = {
 //app.use(cors(corsOptions))
 
 // Enable cors
-app.use(cors()); // Option added for development procces once it is deployed should be changed
+app.use( cors() ); // Option added for development procces once it is deployed should be changed
 // Enable JSON
 app.use(express.json({ extended: true}));
 

@@ -8,10 +8,10 @@ import CustomSpinner from '../components/UI/CustomSpinner';
 const ProtectedRoutes = () => {
     const { isAuthUser, isLoadingReload } = useSelector( (state) => state.user );
     //const isLoadingReload = false; // TODO change to the proper variable
-    //const isAuthUser = true;
+    const isAuthUserD = true;
 
     return(
-        isLoadingReload ? (
+        /* isLoadingReload ? (
             <MainContainer> <CustomSpinner color='#742ff6' size={30} /> </MainContainer>
         ) : isAuthUser ? (
             <MainContentContainer >
@@ -22,8 +22,18 @@ const ProtectedRoutes = () => {
                     </PageContent>
                 </OutletContainer>
             </MainContentContainer>
+        ) : <Navigate to={'/'} /> */
+        isAuthUserD ? (
+            <MainContentContainer >
+                <NavBar />
+                <OutletContainer>
+                    <PageContent>
+                        <Outlet />
+                    </PageContent>
+                </OutletContainer>
+            </MainContentContainer>
         ) : <Navigate to={'/'} />
-    )
+    ) 
 }
 
 export default ProtectedRoutes;
