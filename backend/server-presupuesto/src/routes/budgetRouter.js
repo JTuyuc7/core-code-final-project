@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllBudgetAccounts, getSingleBudgetAccount, createBudgetAccount } from "../controllers/budgetController";
+import { getAllBudgetAccounts, getSingleBudgetAccount, createBudgetAccount, getAllTypeAccounts} from "../controllers/budgetController";
 import { check } from "express-validator";
 
 const router = Router();
@@ -12,6 +12,11 @@ router.get('/all-accounts',
 // Get a single user budget account
 router.get('/single-account/:accountNumber', 
     getSingleBudgetAccount
+)
+
+// Get all account types
+router.get('/account-types',
+    getAllTypeAccounts
 )
 
 // Create a new user Budget account

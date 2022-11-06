@@ -2,6 +2,28 @@ import { connectDB } from "../database/db";
 import { generateAccountNumber } from "../helpers/generateAccountNumber";
 import { validationResult } from "express-validator";
 
+
+export const getAllTypeAccounts = async (req, res, next) => {
+    // Connect DB
+    const pool = await connectDB();
+
+    // Get the user ID to get all the account belongs to the user
+    const { userID } = req.user;
+    let query = `SELECT * from "accountTypes"`;
+    try {
+        const resultAccounts = await pool.query(query);
+        if(resultAccounts.rowCount === 0){
+            return res.json({ msg: 'There is no accounts registered.', accountTypes: []})
+        }
+
+        return res.status(200).json({ msg: 'Account types', accounts: resultAccounts.rows })
+    } catch (error) {
+        console.log(error, 'unable to get all the account types')
+    } finally {
+        await pool.end();
+    }
+}
+
 export const getAllBudgetAccounts = async (req, res, next) => {
     // Connect DB
     const pool = await connectDB();
@@ -10,11 +32,11 @@ export const getAllBudgetAccounts = async (req, res, next) => {
     const { userID } = req.user;
 
     try {
-        let queryAccounts = `SELECT "accountId", "accountNumber", "amount", "accountType" FROM "userAccounts" WHERE "belongsTo" = '${userID}'`;
+        let queryAccounts = `SELECT "accountId", "accountNumber", "amount", "accountType", "createdAt" FROM "userAccounts" WHERE "belongsTo" = '${userID}'`;
         const resultAccounts = await pool.query(queryAccounts);
         
         if(resultAccounts.rowCount === 0){
-            return res.json({ msg: 'You do not have accounts yet, start by creating one.'})
+            return res.json({ msg: 'You do not have accounts yet, start by creating one.', accounts: []})
         }
         return res.status(200).json({ msg: 'Your account list', accounts: resultAccounts.rows })
         
@@ -63,6 +85,7 @@ export const createBudgetAccount = async (req, res, next) => {
     // get the ID of the user logged in
     const { userID } = req.user;
 
+    /*
     // User should have only one type of account
     let queryAccount = `SELECT * FROM "userAccounts" WHERE "belongsTo" = ${userID} AND "accountType" = '${accountType}'`;
     const hasAlreadyAccountType = await pool.query(queryAccount);
@@ -70,7 +93,7 @@ export const createBudgetAccount = async (req, res, next) => {
     if(hasAlreadyAccountType.rowCount === 1) {
         return res.json({ msg: `You have already a ${accountType} created, please select another type.`})
     }
-
+    */ // ---------------------> TODO uncoment to be able to add only one type of account
     if(amount <= 0) {
         return res.json({ msg: 'Account should created with a positive amount or default 0'});
     }
