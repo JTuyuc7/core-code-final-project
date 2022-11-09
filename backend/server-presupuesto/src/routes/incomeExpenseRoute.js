@@ -17,7 +17,7 @@ router.get('/all/:account',
 // Add new income / expense
 router.post('/new/:account',
     [
-        check('description', 'The description is a required field').not().isEmpty(),
+        //check('description', 'The description is a required field').not().isEmpty(),
         check('inExType', 'Please select an option income / expense').not().isEmpty(),
         check('amount', 'Amount is required and should be grater than 0').isNumeric().not().isEmpty()
     ],

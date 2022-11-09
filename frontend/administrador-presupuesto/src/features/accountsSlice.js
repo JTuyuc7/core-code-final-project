@@ -9,7 +9,11 @@ const initialState = {
 
     // Create account
     loadingCreating: false,
-    isSuccess: null
+    isSuccess: null,
+
+    // New income expense
+    loadingRequest: false,
+    allExpenses: []
 }
 
 export const accountSlice = createSlice({
@@ -30,6 +34,13 @@ export const accountSlice = createSlice({
         },
         dispatchSuccessRequest(state, action) {
             state.isSuccess = action.payload
+        },
+        // Incomes Expenses
+        dipatchLoadingRequest(state, action) {
+            state.loadingRequest = action.payload
+        },
+        dispatchNewExpense(state, action) {
+            state.allExpenses = [...state.allExpenses, action.payload]
         }
     }
 })

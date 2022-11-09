@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { AccountsContainer, ActionsContainer, ButtonsActions, ButtonsContainer, ContentContainer, ContentMainContainer, DisplayContainer, MainAccountContainer, MainContainer, NoAccountsYet, OptionsContainer, SingleButton, Title, TitleOptions } from './styles/AccountsComponentsStyles';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const AccountComponents = ({handleOpenModal}) => {
-
+    const navigate = useNavigate();
     const { allAccounts } = useSelector((state) => state.accounts);
-    const [accountSelected, setAccountSelected] = useState(null);
-    
-    // const isDisabled = allAccounts.length === 0;
-    const isDisabled = true;
+    const handleNavigation = (page) => {
+        navigate(page);
+    }
 
     return (
         <>
@@ -53,9 +53,9 @@ const AccountComponents = ({handleOpenModal}) => {
                                 {
                                     allAccounts.length > 0 && (
                                         <>
-                                            <SingleButton isDisabled={false} >New Expense</SingleButton>
-                                            <SingleButton isDisabled={false} >New Income</SingleButton>
-                                            <SingleButton isDisabled={false} >New Transfer</SingleButton>
+                                            <SingleButton onClick={() => handleNavigation('expenses') } isDisabled={false} >Expenses</SingleButton>
+                                            <SingleButton onClick={() => handleNavigation('incomes') }  isDisabled={false} >Incomes</SingleButton>
+                                            <SingleButton onClick={() => handleNavigation('movements') } isDisabled={false} >Movements</SingleButton>
                                         </>
                                     )
                                 }

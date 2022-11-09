@@ -9,7 +9,6 @@ export const MainOverlarContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
     h3 {
         color: rgba(116,47,246,0.8);
         font-family: Roboto;
@@ -30,7 +29,7 @@ export const ContentContainer = styled.div`
     position: absolute;
     background-color: #f2f3f5;
     width: 35%;
-    height: 60%;
+    height: 70%;
     padding: 1rem;
     border-radius: 10px;
     z-index: 2;
@@ -128,5 +127,23 @@ export const CloseContainer = styled.div`
 
     &:hover{
         cursor: pointer;
+    }
+`;
+
+// Styles Form data
+export const ElementMenuItem = styled.div`
+    p {
+        font-family: Roboto;
+        font-size: 13px;
+
+        span {
+            font-size: 11px;
+            font-weight: bold;
+            font-style: italic;
+        }
+    }
+
+    span{
+        font-size: 16px;
     }
 `;
