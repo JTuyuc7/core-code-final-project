@@ -96,7 +96,7 @@ export const addNewIncomeExpense = async (req, res, next) => {
         
         if(inExType === 'Expense') {
             if(amount > amountToUpdate ){
-                return res.json({ msg: 'Insufficient funds, amount should not be greater than your savings.'});
+                return res.json({ msg: 'Insufficient funds, amount should not be greater than your savings.', codeStatus: 2 }); // warning
             }
             newAmount = amountToUpdate - amount
         }
@@ -109,10 +109,10 @@ export const addNewIncomeExpense = async (req, res, next) => {
         const resultUpdate = await pool.query(updatedQuery);
         
         if(resultUpdate.rowCount === 0){
-            return res.json({ msg: 'Something went wrong, please contact use via phone.'});
+            return res.json({ msg: 'Something went wrong, please contact use via phone.', codeStatus: 3 }); // 3 Error
         }
 
-        return res.status(200).json({ msg: `Your ${inExType} was created correctly.`, data: resultQuery.rows[0] });
+        return res.status(200).json({ msg: `Your ${inExType} was created correctly.`, data: resultQuery.rows[0], codeStatus: 1 }); // 1 Success
 
     } catch (error) {
         console.log(error, 'Unable to save your income or expense')

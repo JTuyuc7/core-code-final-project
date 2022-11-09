@@ -63,21 +63,24 @@ export const ContentMainContainer = styled.div`
     flex-direction: column;
     padding: 0.5rem;
     border-radius: 8px;
-    background-color: rgba(0,0,0,0.2)
+    background-color: rgba(116,47,246,0.2);
+    border: 1px solid rgba(116,47,246,0.4);
 `;
 
 export const ContentContainer = styled.div`
     margin-bottom: 0.2rem;
     p {
         font-family: Roboto;
-        color: rgba(116,47,246,0.9);
+        color: rgba(116,47,246,1);
+        /* color: #000; */
         font-weight: 600;
     }
 
     span{
         font-family: Roboto;
         font-style: italic;
-        color: rgba(0,0,0,0.6);
+        color: rgba(0,0,0,0.7);
+        /*color: rgba(255,255,255,0.7)*/
     }
 `;
 

@@ -8,6 +8,41 @@ const storageUsertoken = () => {
     return token;
 }
 
+export const createNewExpense = createAsyncThunk(
+    'add_new_expense',
+    async (data, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            thunkApi.dispatch(accountActions.dipatchLoadingRequest(true));
+            const result = await axiosClient.post(`/api/incomes-expenses/new/${data.account}`,data.expense, config);
+            if (result.data.codeStatus === 3) {
+                toast.error(result.data.msg);
+            }
+
+            if (result.data.codeStatus === 2) {
+                toast.warn(result.data.msg);
+            }
+            
+            if (result.data.codeStatus === 1) {
+                toast.success(result.data.msg);
+                thunkApi.dispatch(accountActions.dispatchNewExpense(result.data.data))
+            }
+        } catch (error) {
+            console.log(error, 'Unable to record you expense')
+        } finally {
+            setTimeout(() => {
+                thunkApi.dispatch(accountActions.dipatchLoadingRequest(false));
+            }, 900)
+        }
+    }
+)
+
 export const createNewAccount = createAsyncThunk(
     'create_budget_account',
     async (data, thunkApi) => {
