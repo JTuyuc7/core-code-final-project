@@ -64,7 +64,7 @@ export const ContentContainer = styled.div`
 `;
 
 export const HeaderContainer = styled.div`
-    background-color: rgba(203,68,74,1);
+    background-color: rgba(83,165,81,1);
     padding: 0.5rem 1rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

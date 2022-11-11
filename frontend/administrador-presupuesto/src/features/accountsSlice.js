@@ -13,7 +13,12 @@ const initialState = {
 
     // New income expense
     loadingRequest: false,
-    allExpenses: []
+    allExpenses: [],
+    expenseIncomeLoading: false,
+    allIncomes: [],
+    completed: null,
+    filtterOpt: '',
+    stateToFilter: []
 }
 
 export const accountSlice = createSlice({
@@ -39,9 +44,28 @@ export const accountSlice = createSlice({
         dipatchLoadingRequest(state, action) {
             state.loadingRequest = action.payload
         },
-        dispatchNewExpense(state, action) {
-            state.allExpenses = [...state.allExpenses, action.payload]
-        }
+        dispatchNewExpenseIncome(state, action) {
+            if (action.payload.inExType === 'Expense') {
+                state.allExpenses = [action.payload, ...state.allExpenses];
+            }
+
+            if (action.payload.inExType === 'Income') {
+                state.allIncomes = [action.payload, ...state.allIncomes]
+            }
+            
+        },
+        successCompleted(state, action) {
+            state.completed = action.payload;
+        },
+        dispatchAllExpenses(state, action) {
+            state.allExpenses = action.payload;
+        },
+        dipatchAllIncomes(state, action) {
+            state.allIncomes = action.payload
+        },
+        dispatchLoadingRequestExpenseIncome(state, action) {
+            state.expenseIncomeLoading = action.payload;
+        },
     }
 })
 

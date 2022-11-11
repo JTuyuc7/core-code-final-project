@@ -8,7 +8,70 @@ const storageUsertoken = () => {
     return token;
 }
 
-export const createNewExpense = createAsyncThunk(
+export const getAllIncomesExpensesByAccount = createAsyncThunk(
+    'get_data_by_account',
+    async (data, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            const result = await axiosClient.get(`/api/incomes-expenses/all/${data.acc}?type=${data.type}`, config);
+            if (data.type === 'Expense') {
+                thunkApi.dispatch(accountActions.dispatchAllExpenses(result.data.data));
+            }
+
+            if (data.type === 'Income') {
+                thunkApi.dispatch(accountActions.dipatchAllIncomes(result.data.data));
+            }
+        } catch (error) {
+            console.log(error, 'unable to get data')
+        }
+    }
+)
+
+export const getAllIncomesExpenses = createAsyncThunk(
+    'get_all_incomes_expenses',
+    async (_, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            thunkApi.dispatch(accountActions.dispatchLoadingRequestExpenseIncome(true));
+            const result = await axiosClient.get(`/api/incomes-expenses/all`, config);
+
+            const expenses = [];
+            const incomes = [];
+            if (result.data.data) {
+                result.data.data.forEach((ele) => {
+                    
+                    if (ele.inExType === 'Expense') {
+                        expenses.push(ele);
+                    }
+
+                    if (ele.inExType === 'Income') {
+                        incomes.push(ele);
+                    }
+                });
+                thunkApi.dispatch(accountActions.dispatchAllExpenses(expenses));
+                thunkApi.dispatch(accountActions.dipatchAllIncomes(incomes));
+            }
+        } catch (error) {
+            console.log(error, 'Unable to get your data')
+        } finally { 
+            thunkApi.dispatch(accountActions.dispatchLoadingRequestExpenseIncome(false));
+        }
+    }
+)
+
+export const createNewExpenseIncome = createAsyncThunk(
     'add_new_expense',
     async (data, thunkApi) => {
         const token = storageUsertoken();
@@ -20,7 +83,7 @@ export const createNewExpense = createAsyncThunk(
         };
         try {
             thunkApi.dispatch(accountActions.dipatchLoadingRequest(true));
-            const result = await axiosClient.post(`/api/incomes-expenses/new/${data.account}`,data.expense, config);
+            const result = await axiosClient.post(`/api/incomes-expenses/new/${data.account}`, data.values, config);
             if (result.data.codeStatus === 3) {
                 toast.error(result.data.msg);
             }
@@ -31,13 +94,14 @@ export const createNewExpense = createAsyncThunk(
             
             if (result.data.codeStatus === 1) {
                 toast.success(result.data.msg);
-                thunkApi.dispatch(accountActions.dispatchNewExpense(result.data.data))
+                thunkApi.dispatch(accountActions.dispatchNewExpenseIncome(result.data.data))
             }
         } catch (error) {
             console.log(error, 'Unable to record you expense')
         } finally {
             setTimeout(() => {
                 thunkApi.dispatch(accountActions.dipatchLoadingRequest(false));
+                thunkApi.dispatch(accountActions.successCompleted(true));
             }, 900)
         }
     }

@@ -1,14 +1,15 @@
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { CloseContainer, ContentContainer, ContentFormValues, ElementMenuItem, FormContainer, MainOverlarContainer, OveralyContainer, SingleButton } from './styles/NewExpenseFormStyle';
-import { FormControl, InputLabel, Select, MenuItem, FormHelperText, TextField, } from '@mui/material';
-import CustomSpinner from '../../../UI/CustomSpinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewExpenseIncome, getAllMyAccounts } from '../../../../services/accountServices';
 import { accountActions } from '../../../../features/accountsSlice';
+import { createNewExpenseIncome, getAllMyAccounts } from '../../../../services/accountServices';
+import CustomSpinner from '../../../UI/CustomSpinner';
+import { CloseContainer, ContentContainer, ContentFormValues, ElementMenuItem, FormContainer, MainOverlarContainer, OveralyContainer, SingleButton } from './styles/IncomesFormStyle';
 
-const NewExpenseForm = ({handleOpenModal}) => {
+const IncomesForm = ({handleOpenModal}) => {
     const dispatch = useDispatch();
     const { allAccounts, loadingRequest, completed } = useSelector((state) => state.accounts);
+
     useEffect(() => {
         if (completed) {
             handleOpenModal();
@@ -18,39 +19,39 @@ const NewExpenseForm = ({handleOpenModal}) => {
             dispatch(getAllMyAccounts());
         }
     },[completed])
-    const [expenseData, setExpenseData] = useState({
+    const [expenseData, setIncomeData] = useState({
         accountNumber: '',
-        inExType: 'Expense',
+        inExType: 'Income',
         amount: '',
         description: ''
     });
     const { accountNumber, amount, inExType, description } = expenseData;
     
     // Errors
-    const [expenseDataError, setExpenseDataError] = useState({
+    const [expenseDataError, setIncomeDataError] = useState({
         accountNumberError: false,
         amountError: false,
         descriptionError: false
     });
-
     const { accountNumberError, amountError, descriptionError } = expenseDataError;
+
     const [ accSelected, setAccSelected] = useState({})
 
     const changeAccountSelected = (e) => {
-        setExpenseData({ ...expenseData, accountNumber: e.target.value });
+        setIncomeData({ ...expenseData, accountNumber: e.target.value });
         const acc = allAccounts.find((acc) => acc.accountId === e.target.value);
         setAccSelected(acc);
     }
-    const isDisabled = !accountNumber || amount <= 0 || Number(amount) > Number(accSelected.amount);
 
-    const handleNewExpense = (e) => {
+    const handleNewIncome = (e) => {
         e.preventDefault();
-        let expenseData = {};
-        if (!accountNumber || !amount || Number(amount) > Number(accSelected.amount)) return;
-        expenseData.description = description;
-        expenseData.inExType = inExType;
-        expenseData.amount = Number(amount);
-        dispatch(createNewExpenseIncome({ values: expenseData, account: accSelected.accountNumber }));
+        let incomeData = {};
+        if (!accountNumber || !amount) return;
+        incomeData.description = description;
+        incomeData.inExType = inExType;
+        incomeData.amount = Number(amount);
+        dispatch(createNewExpenseIncome({values: incomeData, account: accSelected.accountNumber}))
+        
     }
     return (
         <>
@@ -61,9 +62,9 @@ const NewExpenseForm = ({handleOpenModal}) => {
                     <CloseContainer
                         onClick={handleOpenModal}
                     ><span>X</span></CloseContainer>
-                    <h3>New Expense</h3>
+                    <h3>New Income</h3>
                     <FormContainer
-                        onSubmit={handleNewExpense}
+                        onSubmit={handleNewIncome}
                     >
                         <ContentFormValues>
                             <FormControl fullWidth>
@@ -76,13 +77,13 @@ const NewExpenseForm = ({handleOpenModal}) => {
                                     required
                                     value={accountNumber}
                                     onChange={changeAccountSelected}
-                                    onBlur={() => setExpenseDataError({ ...expenseDataError, accountNumberError: true })}
+                                    onBlur={() => setIncomeDataError({ ...expenseDataError, accountNumberError: true })}
                                     error={accountNumberError && accountNumber === ''}
                                 >
                                     {
                                         allAccounts.map((acc) => {
                                             return (
-                                                <MenuItem key={acc.accountId} value={acc.accountId} disabled={Number(acc.amount) <= 0}>
+                                                <MenuItem key={acc.accountId} value={acc.accountId}>
                                                     <ElementMenuItem>
                                                         <p>{acc.accountType} <span>Av. {Number(acc.amount).toFixed(2)} $</span></p>
                                                         <span>{acc.accountNumber}</span>
@@ -105,11 +106,11 @@ const NewExpenseForm = ({handleOpenModal}) => {
                                             id='amount'
                                             required
                                             label='Expense Amount'
-                                            onChange={(e) => setExpenseData({ ...expenseData, amount: e.target.value })}
+                                            onChange={(e) => setIncomeData({ ...expenseData, amount: e.target.value })}
                                             value={amount}
-                                            onBlur={() => setExpenseDataError({ ...expenseDataError, amountError: true })}
-                                            error={amountError && amount === '' ? true : amount !== '' && Number(amount) === 0 ? true : Number(amount) > Number(accSelected.amount) }
-                                            helperText={ amountError && amount === '' ? 'Please enter an amount' : amount !== '' && Number(amount) === 0 ? 'Amount needs to be grater than 0' : Number(amount) > Number(accSelected.amount) && 'The amount cannot exceed the available balance' }
+                                            onBlur={() => setIncomeDataError({ ...expenseDataError, amountError: true })}
+                                            error={amountError && amount === '' ? true : amount !== '' && Number(amount) === 0 && true }
+                                            helperText={ amountError && amount === '' ? 'Please enter an amount' : amount !== '' && Number(amount) === 0 && 'Amount needs to be grater than 0' }
                                         />
                                     </FormControl>
                                 </ContentFormValues>
@@ -130,12 +131,12 @@ const NewExpenseForm = ({handleOpenModal}) => {
                                                 rows={3}
                                                 multiline
                                                 value={description}
-                                                onChange={(e) => setExpenseData({...expenseData, description: e.target.value})}
+                                                onChange={(e) => setIncomeData({...expenseData, description: e.target.value})}
                                             />
                                         </FormControl>
                                     </ContentFormValues>
                                         <ContentFormValues>
-                                        <SingleButton isDisabled={isDisabled}>{ loadingRequest ? <CustomSpinner color='#742ff6' /> : 'Save Expense'}</SingleButton>
+                                        <SingleButton isDisabled={false}>{ loadingRequest ? <CustomSpinner color='#742ff6' /> : 'Save Expense'}</SingleButton>
                                     </ContentFormValues>
                                 </>
                             )
@@ -147,4 +148,4 @@ const NewExpenseForm = ({handleOpenModal}) => {
     )
 }
 
-export default NewExpenseForm;
+export default IncomesForm;

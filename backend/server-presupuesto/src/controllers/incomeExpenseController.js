@@ -20,7 +20,7 @@ export const getAllIncomesExpenseByAccount = async (req, res, next) => {
 
         const resultData = await pool.query(queryDefault);
         if(resultData.rowCount === 0){
-            return res.json({ msg: 'There is not income / expense recorded yet.'})
+            return res.json({ msg: 'There is not income / expense recorded yet.', data: []})
         }
 
         return res.status(200).json({ msg: 'Your list', data: resultData.rows })
@@ -46,7 +46,7 @@ export const getAllIncomesExpensesByUser = async (req, res, next) => {
         const resultQuery = await pool.query(allIncomeExpenseQuery);
 
         if(resultQuery.rowCount === 0){
-            return res.json({ msg: 'There is no income, expense yet, start adding one.'})
+            return res.json({ msg: 'There is no income, expense yet, start adding one.', data: []})
         }
 
         return res.status(200).json({ msg: 'All your incomes / expenses ', data: resultQuery.rows })
