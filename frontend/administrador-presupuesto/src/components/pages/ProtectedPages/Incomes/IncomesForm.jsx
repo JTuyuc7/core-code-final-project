@@ -33,7 +33,7 @@ const IncomesForm = ({handleOpenModal}) => {
         amountError: false,
         descriptionError: false
     });
-    const { accountNumberError, amountError, descriptionError } = expenseDataError;
+    const { accountNumberError, amountError } = expenseDataError;
 
     const [ accSelected, setAccSelected] = useState({})
 
@@ -135,7 +135,7 @@ const IncomesForm = ({handleOpenModal}) => {
                                             />
                                         </FormControl>
                                     </ContentFormValues>
-                                        <ContentFormValues>
+                                    <ContentFormValues>
                                         <SingleButton isDisabled={false}>{ loadingRequest ? <CustomSpinner color='#742ff6' /> : 'Save Expense'}</SingleButton>
                                     </ContentFormValues>
                                 </>

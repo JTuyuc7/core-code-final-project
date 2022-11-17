@@ -22,7 +22,6 @@ const Home = () => {
 
     const handleOpenModal = () => {
         setOpenModalForm(!openModalForm);
-        console.log('closing modal');
     }
 
     return(

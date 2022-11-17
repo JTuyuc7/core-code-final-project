@@ -11,6 +11,10 @@ export const BurgerContainer = styled.div`
         TODO check which style si better
         display: block;
     }*/
+
+    &:hover{
+        cursor: pointer;
+    }
 `;
 
 export const OverlayContainer = styled.div`
@@ -60,6 +64,14 @@ export const NavigationContainer = styled.div`
     width: 90%;
     margin: 2rem auto;
     flex-direction: column;
+
+    p {
+        font-family: Roboto;
+        font-weight: 500;
+        text-align: center;
+        color: #742ff4;
+        background-color: transparent;
+    }
 `;
 
 export const CloseNaivationContainer = styled.div`

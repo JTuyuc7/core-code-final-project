@@ -110,7 +110,7 @@ const NewAccountForm = ({ handleOpenModal }) => {
                             </FormControl>
                         </ContentFormValues>
                         <ContentFormValues>
-                            <SingleButton isDisabled={isDisabled}>{ loadingCreating ? <CustomSpinner color='#742ff6' /> : 'Create Account'}</SingleButton>
+                            <SingleButton buttonH={'45px'} isDisabled={isDisabled}>{ loadingCreating ? <CustomSpinner color='#742ff6' /> : 'Create Account'}</SingleButton>
                         </ContentFormValues>
                     </FormContainer>
                 </ContentContainer>

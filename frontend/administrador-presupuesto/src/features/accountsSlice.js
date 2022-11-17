@@ -18,7 +18,9 @@ const initialState = {
     allIncomes: [],
     completed: null,
     filtterOpt: '',
-    stateToFilter: []
+    stateToFilter: [],
+    userTransferInfo: {},
+    allMovements: []
 }
 
 export const accountSlice = createSlice({
@@ -66,6 +68,34 @@ export const accountSlice = createSlice({
         dispatchLoadingRequestExpenseIncome(state, action) {
             state.expenseIncomeLoading = action.payload;
         },
+        dispatchUserTransferInfo(state, action) {
+            state.userTransferInfo = action.payload
+        },
+        dispatchAllMovements(state, action) {
+            state.allMovements = action.payload
+        },
+        dispatchLogOutUserAccount(state, action) {
+            state.loadingAccounts = false;
+            state.allAccounts = [];
+
+            // All type accounts
+            state.allAccountTypes = [];
+
+            // Create account
+            state.loadingCreating = false;
+            state.isSuccess = null;
+
+            // New income expense
+            state.loadingRequest = false;
+            state.allExpenses = [];
+            state.expenseIncomeLoading = false;
+            state.allIncomes = [];
+            state.completed = null;
+            state.filtterOpt = '';
+            state.stateToFilter = [];
+            state.userTransferInfo = {};
+            state.allMovements = [];
+        }
     }
 })
 

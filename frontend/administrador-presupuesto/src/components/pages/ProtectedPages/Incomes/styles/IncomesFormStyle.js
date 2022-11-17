@@ -83,7 +83,8 @@ export const SingleButton = styled.button`
     width: 100%;
     border: navajowhite;
     padding: 0.5rem 0.5rem;
-    height: 45px;
+    /*height: 45px;*/
+    height: ${({buttonH}) => buttonH};
     border-radius: 5px;
     border: 1.2px solid rgba(116,47,246,0.8);
     color: rgba(116,47,246,0.8);

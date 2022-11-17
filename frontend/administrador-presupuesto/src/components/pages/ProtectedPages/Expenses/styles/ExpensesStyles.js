@@ -6,6 +6,7 @@ export const MainContainer = styled.div`
     flex-direction: row;
     border: 1.5px solid #e1e1e1;
     border-radius: 10px;
+    position: relative;
     @media(max-width: 700px){
         flex-direction: column-reverse;
     }
@@ -111,3 +112,12 @@ export const NoExpenses = styled.p`
     padding: 1rem 0;
 `;
 // 121 40 44
+
+export const BackButtonContainer = styled.div`
+    position: absolute;
+    top: -30px;
+
+    &:hover{
+        cursor: pointer;
+    }
+`;

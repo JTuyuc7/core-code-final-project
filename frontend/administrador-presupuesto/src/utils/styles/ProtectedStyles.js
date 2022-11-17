@@ -18,7 +18,7 @@ export const MainContentContainer = styled.main`
 export const OutletContainer = styled.div`
     height: max-content;
     flex: 1;
-    padding: 3rem 0;
+    padding: 2rem 0;
     justify-content: center;
     flex-direction: row;
     display: flex;

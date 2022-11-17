@@ -1,11 +1,24 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { BurgerContainer, OverlayContainer, ContenContainer, ContenContainerOverlay, NavigationContainer, CloseNaivationContainer, ContainerElements, NavigationLinksContainer, UserLinksContainer } from './styles/MobileNavStyles';
-import { GiHamburgerMenu, GiReceiveMoney, GiPayMoney, GiSplitArrows, GiCharacter, GiExitDoor } from "react-icons/gi";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { BurgerContainer, OverlayContainer, ContenContainer, ContenContainerOverlay, NavigationContainer, CloseNaivationContainer, ContainerElements, NavigationLinksContainer } from './styles/MobileNavStyles';
+import { GiHamburgerMenu, GiReceiveMoney, GiPayMoney, GiSplitArrows, GiExitDoor } from "react-icons/gi";
 import { BiWindowClose } from 'react-icons/bi';
 import { FiHome } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
+import { accountActions } from '../../features/accountsSlice';
+import { userActions } from '../../features/userSlice';
 
-const MobileNav = ({isOpen, openModal}) => {
+const MobileNav = ({ isOpen, openModal }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { userInfo: { userName, userLastName } } = useSelector((state) => state.user);
+    
+    const handleLogouotUser = () => {
+        navigate('/');
+        dispatch(accountActions.dispatchLogOutUserAccount());
+        dispatch(userActions.dispatchLogoutUser());
+        localStorage.removeItem('$userToken');
+    }
     return(
         <>
             <BurgerContainer
@@ -49,12 +62,14 @@ const MobileNav = ({isOpen, openModal}) => {
                                         >Movements <GiSplitArrows size={'1.5rem'} /></NavLink>
                                     </NavigationLinksContainer>
                                     <NavigationLinksContainer>
-                                        <NavLink
+                                        {/*<NavLink
                                             onClick={openModal}
                                             to={'profile'}
-                                        >Profile <GiCharacter size={'1.5rem'} /></NavLink>
-
-                                        <button>
+                                        >Profile <GiCharacter size={'1.5rem'} /></NavLink>*/}
+                                        <p>{userName} {userLastName}</p>
+                                        <button
+                                            onClick={handleLogouotUser}
+                                        >
                                             <p> Log Out <GiExitDoor size={'1.5rem'} /></p>
                                         </button>
                                     </NavigationLinksContainer>

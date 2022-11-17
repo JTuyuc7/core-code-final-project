@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AccountsContainer, ActionsContainer, ButtonsActions, ButtonsContainer, ContentContainer, ContentMainContainer, DisplayContainer, MainAccountContainer, MainContainer, NoAccountsYet, OptionsContainer, SingleButton, Title, TitleOptions } from './styles/AccountsComponentsStyles';
+import React from 'react';
+import { AccountsContainer, ActionsContainer, ButtonsActions, ButtonsContainer, ContentContainer, ContentMainContainer, DisplayContainer, MainAccountContainer, MainContainer, NoAccountsYet, SingleButton, TitleOptions } from './styles/AccountsComponentsStyles';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,13 +49,13 @@ const AccountComponents = ({handleOpenModal}) => {
 
                         <ButtonsContainer>
                             <ButtonsActions>
-                                <SingleButton onClick={handleOpenModal}>New Account</SingleButton>
+                                <SingleButton buttonH={'45px'} onClick={handleOpenModal}>New Account</SingleButton>
                                 {
                                     allAccounts.length > 0 && (
                                         <>
-                                            <SingleButton onClick={() => handleNavigation('expenses') } isDisabled={false} >Expenses</SingleButton>
-                                            <SingleButton onClick={() => handleNavigation('incomes') }  isDisabled={false} >Incomes</SingleButton>
-                                            <SingleButton onClick={() => handleNavigation('movements') } isDisabled={false} >Movements</SingleButton>
+                                            <SingleButton buttonH={'45px'} onClick={() => handleNavigation('expenses') } isDisabled={false} >Expenses</SingleButton>
+                                            <SingleButton buttonH={'45px'} onClick={() => handleNavigation('incomes') }  isDisabled={false} >Incomes</SingleButton>
+                                            <SingleButton buttonH={'45px'} onClick={() => handleNavigation('movements') } isDisabled={false} >Movements</SingleButton>
                                         </>
                                     )
                                 }

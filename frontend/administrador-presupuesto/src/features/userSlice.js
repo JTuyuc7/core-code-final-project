@@ -55,6 +55,25 @@ export const userSlice = createSlice({
         },
         dispatchLoadingReload(state, action){
             state.isLoadingReload = action.payload
+        },
+        dispatchLogoutUser(state, action) {
+            state.isLoadingAuth = false;
+
+            // State for checking email
+            state.isTakenEmail = null;
+            state.isTakenMsg = '';
+
+            // Validate account token
+            state.isValidToken = null;
+            state.isLoadingConfirm = false;
+
+            // Authenticate user
+            state.isAuthUser = false;
+            state.userToken = '';
+            state.userInfo = {};
+
+            // Loading spinner
+            state.isLoadingReload = false;
         }
     }
 })
