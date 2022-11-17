@@ -10,7 +10,7 @@ export const MainContainer = styled.div`
 `;
 
 export const SubContainer = styled.div`
-    max-height: 80%;
+    max-height: 60%;
     flex: 1;
     display: flex;
     margin: 0.7rem 0;
@@ -25,4 +25,5 @@ export const ExchangeContainer = styled.div`
     border: 1.5px solid #e1e1e1;
     border-radius: 10px;
     padding: 0.8rem;
+    max-height: 40%;
 `;

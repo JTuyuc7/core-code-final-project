@@ -21,19 +21,19 @@ export const DisplayContainer = styled.div`
 `;
 
 export const AccountsContainer = styled.div`
-    height: 350px;
+    height: 300px;
     max-height: 100%;
     overflow-y: scroll;
     width: 50%;
     @media( max-width: 900px) {
-        height: 250px;
+        height: 200px;
         max-height: 100%;
         overflow-y: scroll;
         width: 100%;
     }
 
     @media( max-width: 700px) {
-        height: 200px;
+        height: 180px;
         max-height: 100%;
         overflow-y: scroll;
         width: 100%;

@@ -8,6 +8,95 @@ const storageUsertoken = () => {
     return token;
 }
 
+export const getMovementsByAccount = createAsyncThunk(
+    'get_movements_by_account',
+    async (data, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            const result = await axiosClient.get(`/api/movements/all/${data.account}?filter=${data.filter}`, config);
+            thunkApi.dispatch(accountActions.dispatchAllMovements(result.data.movements))
+        } catch (error) {
+            console.log(error, 'Unable to get your data')
+        }
+    }
+)
+
+export const getAllMovementsService = createAsyncThunk(
+    'get_all_movements',
+    async (_, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            const result = await axiosClient.get(`/api/movements/all`, config);
+            if (result.status === 200) {
+                thunkApi.dispatch(accountActions.dispatchAllMovements(result.data.movements))
+            }
+        } catch (error) {
+            console.log(error, 'Unable to get all your movements')
+        }
+    }
+)
+
+export const newTransactionService = createAsyncThunk(
+    'create_new_transaction',
+    async (values, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            console.log(values.data, 'en servicios')
+            thunkApi.dispatch(accountActions.dipatchLoadingRequest(true));
+            await axiosClient.post(`/api/movements/transfer`, values.data, config);
+        } catch (error) {
+            console.log(error, 'Unable to complete the request');
+        } finally {
+            setTimeout(() => {
+                thunkApi.dispatch(accountActions.dipatchLoadingRequest(false));
+                thunkApi.dispatch(accountActions.successCompleted(true));
+            }, 900);
+        }
+    }
+)
+
+export const getDestinationAccountService = createAsyncThunk(
+    'get_destination_account',
+    async (acc, thunkApi) => {
+        const token = storageUsertoken();
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        try {
+            console.log(acc, 'llega aca')
+            const result = await axiosClient.get(`/api/movements/find/${acc}`, config);
+            
+            console.log(result.data, typeof result.data, 'cuenta enctonrada ?')
+            if (result.status === 200) {
+                thunkApi.dispatch(accountActions.dispatchUserTransferInfo(result.data))
+            }
+        } catch (error) {
+            console.log(error, 'unable to get the account info');
+        }
+    }
+)
+
 export const getAllIncomesExpensesByAccount = createAsyncThunk(
     'get_data_by_account',
     async (data, thunkApi) => {

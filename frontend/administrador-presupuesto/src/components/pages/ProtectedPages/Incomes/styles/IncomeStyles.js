@@ -6,6 +6,7 @@ export const MainContainer = styled.div`
     flex-direction: row;
     border: 1.5px solid #e1e1e1;
     border-radius: 10px;
+    position: relative;
     @media(max-width: 700px){
         flex-direction: column-reverse;
     }

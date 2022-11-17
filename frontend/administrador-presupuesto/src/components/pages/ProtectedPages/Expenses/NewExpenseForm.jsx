@@ -33,7 +33,7 @@ const NewExpenseForm = ({handleOpenModal}) => {
         descriptionError: false
     });
 
-    const { accountNumberError, amountError, descriptionError } = expenseDataError;
+    const { accountNumberError, amountError } = expenseDataError;
     const [ accSelected, setAccSelected] = useState({})
 
     const changeAccountSelected = (e) => {
