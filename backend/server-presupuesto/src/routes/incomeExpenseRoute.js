@@ -1,17 +1,16 @@
-import { Router } from 'express';
-import { check } from 'express-validator';
-import { addNewIncomeExpense, getAllIncomesExpensesByUser, getAllIncomesExpenseByAccount } from '../controllers/incomeExpenseController';
-
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
+const incomeExpenseController = require('../controllers/incomeExpenseController');
 
 // Get all the registered incomes by User ID
 router.get('/all',
-    getAllIncomesExpensesByUser
+    incomeExpenseController.getAllIncomesExpensesByUser
 )
 
 // Get all income / expense by account and user ID
 router.get('/all/:account',
-    getAllIncomesExpenseByAccount
+    incomeExpenseController.getAllIncomesExpenseByAccount
 )
 
 // Add new income / expense
@@ -21,7 +20,7 @@ router.post('/new/:account',
         check('inExType', 'Please select an option income / expense').not().isEmpty(),
         check('amount', 'Amount is required and should be grater than 0').isNumeric().not().isEmpty()
     ],
-    addNewIncomeExpense
+    incomeExpenseController.addNewIncomeExpense
 )
 
-export default router;
+module.exports = router;

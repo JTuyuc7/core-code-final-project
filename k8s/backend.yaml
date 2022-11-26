@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: budget-backend
+  template:
+    metadata:
+      labels:
+        app: budget-backend
+    spec:
+      containers:
+      - name: budget-backend
+        image: jaimetuyuc/budget-backend-1:0.0.2
+        env:
+          - name: PORT
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: port
+          - name: FRONT_END_URL
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: front-url
+          - name: USER_DB
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: user-db
+          - name: DB_PORT
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: db-port
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: password
+          - name: DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: database
+          - name: SECRET_KEY_JWT
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: secret-key
+          - name: EMAIL_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: email-key
+          - name: HOST
+            value: budget-database-service
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "256m"
+        ports:
+        - containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: budget-backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: budget-backend
+  ports:
+  - port: 4000
+    targetPort: 4000

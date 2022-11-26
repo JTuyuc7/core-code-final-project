@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: budget-frontend
+  template:
+    metadata:
+      labels:
+        app: budget-frontend
+    spec:
+      containers:
+      - name: budget-frontend
+        image: jaimetuyuc/budget-frontend-1:0.0.2-alpine
+        env:
+          - name: REACT_APP_BACKEND_URL
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: react-app-url
+          - name: REACT_APP_API_CURRENCY
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: currency-api
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "256m"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: budget-frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: budget-frontend
+  ports:
+  - port: 8080
+    targetPort: 80

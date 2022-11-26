@@ -62,6 +62,28 @@ This is the front end project, here will be described step by step how the front
 
     - This will serve the app on http://localhost:3000/
     
+### Want to run the docker container on dev mode?
+```shell
+    docker run \
+    -e REACT_APP_BACKEND_URL=<Your Front end URL> \
+    -e REACT_APP_API_CURRENCY=<Your Key of ExchangeRate-API > \
+    -v <path of your code>:/code \
+    -w /code \
+    -p 3000:3000 --rm -it \
+    node:16-buster "/bin/bash"
+```
+
+### Want to build the container 
+```shell
+    docker build -t frontend:0.0.1-alpine . 
+
+    // Where the Docker file is located
+```
+
+### Want to run the container
+```shell
+    docker run -d -p 3000:80 frontend:0.0.1-alpine
+```
     
 * Project progress
   - Create new account

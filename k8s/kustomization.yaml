@@ -1,0 +1,7 @@
+namespace: app1
+
+resources:
+  - database.yaml
+  - backend.yaml
+  - frontend.yaml
+  - namespace.yaml

@@ -1,10 +1,9 @@
-import { Router } from 'express';
-import { confirmAccount } from '../controllers/confirAccountController';
-
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const confirmAccountController = require('../controllers/confirAccountController');
 
 router.get('/:token',
-    confirmAccount
+    confirmAccountController.confirmAccount
 )
 
-export default router;
+module.exports = router;

@@ -1,11 +1,11 @@
-import { connectDB } from '../database/db';
-import { generateToken } from '../helpers/generateToken';
-import { validationResult } from 'express-validator';
-import { sendMailConfirmation } from '../helpers/mailConfirmation';
-import bcriptjs  from 'bcryptjs';
+const connectDB = require('../database/db');
+const generateToken = require('../helpers/generateToken');
+const { validationResult } = require('express-validator');
+const sendMailConfirmation = require('../helpers/mailConfirmation');
+const bcriptjs = require('bcryptjs');
 
 // controllers for user
-export const createUser = async (req, res, next) => {
+exports.createUser = async (req, res, next) => {
 
     const pool = await connectDB();
     const errors = validationResult(req);
@@ -39,8 +39,9 @@ export const createUser = async (req, res, next) => {
         if(newUser.rowCount === 0 ){
             res.status(400).json({ msg: 'something went wrong while creating your account.'})
         }else {
-            res.status(200).json({msg: 'Your account has created correctly, please check your email to confirm your account.'})
-            const { userName, userEmail, userToken, userLastName } = newUser.rows[0];
+             res.status(200).json({msg: 'Your account has created correctly, please check your email to confirm your account.'})
+            //res.status(200).json({msg: 'Your account has created correctly.'})
+            // const { userName, userEmail, userToken, userLastName } = newUser.rows[0];
 
             const msg = await sendMailConfirmation({
                 name: userName,
@@ -59,7 +60,7 @@ export const createUser = async (req, res, next) => {
 }
 
 // Check if the email is already taken
-export const verifyUniqueEmail = async (req, res) => {
+exports.verifyUniqueEmail = async (req, res) => {
 
     // Db connection
     const pool = await connectDB();

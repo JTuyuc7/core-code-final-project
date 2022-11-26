@@ -1,12 +1,12 @@
-import sgMail from '@sendgrid/mail';
-import config from '../settings';
+const sgMail = require('@sendgrid/mail');
+const config = require('../settings');
 
 const { email_api_key, front_url } = config;
 
 // Set the key of email
 sgMail.setApiKey(email_api_key);
 
-export const sendMailConfirmation = async (data) => {
+const sendMailConfirmation = async (data) => {
     let msgSent = '';
     const { name, lastName, email, token } = data;
     const msg = {
@@ -32,3 +32,5 @@ export const sendMailConfirmation = async (data) => {
 
     return msgSent;
 }
+
+module.exports = sendMailConfirmation;

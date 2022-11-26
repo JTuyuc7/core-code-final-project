@@ -1,10 +1,10 @@
-import Jwt from "jsonwebtoken";
-import { connectDB } from "../database/db";
-import config from '../settings';
+const Jwt = require('jsonwebtoken');
+const connectDB = require('../database/db');
+const config = require('../settings');
 
 const { secret_key_jwt } = config;
 
-export const checkAuthUser = async (req, res, next) => {
+const checkAuthUser = async (req, res, next) => {
     const pool = await connectDB();
     let token;
 
@@ -30,3 +30,5 @@ export const checkAuthUser = async (req, res, next) => {
 
     next();
 }
+
+module.exports = checkAuthUser;

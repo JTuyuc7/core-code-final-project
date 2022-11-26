@@ -1,13 +1,12 @@
-import { connectDB } from '../database/db';
-import { validationResult } from 'express-validator';
-import bcript from 'bcryptjs';
-import config from '../settings';
-//import { Jwt } from 'jsonwebtoken';
-import jwt from 'jsonwebtoken';
+const connectDB = require('../database/db');
+const { validationResult } = require('express-validator');
+const bcript = require('bcryptjs');
+const config = require('../settings');
+const jwt = require('jsonwebtoken');
 
 const { secret_key_jwt } = config;
 
-export const loginController = async (req, res, next) => {
+exports.loginController = async (req, res, next) => {
 
     const pool = await connectDB(); // DB conection to get the pool
 

@@ -80,3 +80,33 @@ once you have configurade this, at the root level of the project run <strong>npm
     "@babel/preset-env",
     "nodemon"
 ```
+
+### Want to run the Container on dev mode?
+```shell
+  docker run \
+  -e PORT=<Your port> \
+  -e FRONT_END_URL=<Your Frontend URL example: http://localhost:3000 > \
+  -e HOST=<Your host of postgres> \
+  -e USER_DB=<postgres user || postgres> \
+  -e DB_PORT=<postgres port || 5432> \
+  -e PASSWORD=<postgress password> \
+  -e DATABASE=<postgres database> \
+  -e SECRET_KEY_JWT=<Your JWT secret string>\
+  -e EMAIL_API_KEY=<Your secret key of @sendgrid/mail>\
+  -v <path where the files are located (root project)>:/code \
+  -w /code \
+  -p 4000:4000 --rm -it \
+  node:18-buster "/bin/bash"
+```
+
+### Want to build the image?
+```shell
+  docker build -t backend:0.0.1 .
+
+  // Where the docker file is located
+```
+
+### want to run the app?
+```shell
+  docker run -d -p 4000:4000 backend:0.0.1 
+```

@@ -1,0 +1,27 @@
+services:
+  # Frontend
+  frontend:
+    image: frontend:0.0.2-alpine
+    ports:
+      - 3000:80
+    env_file:
+      - compose-env-variables.env
+  # Backend
+  backend:
+    image: backend:0.0.2
+    ports:
+      - 4000:4000
+    env_file:
+      - compose-env-variables.env
+  # Services of DB (Database)
+  postgres:
+   image: postgres:14.5
+   ports:
+     - 9000:5432
+   env_file:
+      - compose-env-variables.env
+   volumes:
+     - PGDATA:/var/lib/postgresql/data
+     - ./db:/docker-entrypoint-initdb.d
+volumes:
+  PGDATA:

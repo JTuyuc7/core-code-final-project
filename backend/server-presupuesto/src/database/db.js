@@ -1,5 +1,5 @@
-import { Client } from 'pg';
-import config from '../settings';
+const { Client } = require('pg');
+const config = require('../settings');
 
 const { host, user_db, db_port, password, database } = config;
 
@@ -10,7 +10,7 @@ const dbSettings = {
     password: password,
     database: database
 }
-export const connectDB = async () => {
+const connectDB = async () => {
     try {
         const client = new Client(dbSettings);
         //console.log(client, 'cliente')
@@ -20,3 +20,5 @@ export const connectDB = async () => {
         console.log(error, 'Unable to connect to DB')
     }
 }
+
+module.exports = connectDB;
