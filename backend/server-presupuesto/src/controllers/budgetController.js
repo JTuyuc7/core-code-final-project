@@ -1,9 +1,8 @@
-import { connectDB } from "../database/db";
-import { generateAccountNumber } from "../helpers/generateAccountNumber";
-import { validationResult } from "express-validator";
+const connectDB = require('../database/db');
+const generateAccountNumber = require('../helpers/generateAccountNumber');
+const { validationResult } = require('express-validator');
 
-
-export const getAllTypeAccounts = async (req, res, next) => {
+exports.getAllTypeAccounts = async (req, res, next) => {
     // Connect DB
     const pool = await connectDB();
 
@@ -24,7 +23,7 @@ export const getAllTypeAccounts = async (req, res, next) => {
     }
 }
 
-export const getAllBudgetAccounts = async (req, res, next) => {
+exports.getAllBudgetAccounts = async (req, res, next) => {
     // Connect DB
     const pool = await connectDB();
 
@@ -49,7 +48,7 @@ export const getAllBudgetAccounts = async (req, res, next) => {
     }
 }
 
-export const getSingleBudgetAccount = async (req, res, next) => {
+exports.getSingleBudgetAccount = async (req, res, next) => {
     // DB connection
     const pool = await connectDB();
     // Get the account to search
@@ -71,7 +70,7 @@ export const getSingleBudgetAccount = async (req, res, next) => {
     }
 }
 
-export const createBudgetAccount = async (req, res, next) => {
+exports.createBudgetAccount = async (req, res, next) => {
 
     // Create connection to db
     const pool = await connectDB();

@@ -1,11 +1,10 @@
-import Jwt from "jsonwebtoken";
-import config from '../settings';
-import { connectDB } from "../database/db";
+const Jwt = require('jsonwebtoken');
+const config = require('../settings');
+const connectDB = require('../database/db');
 
 const { secret_key_jwt } = config;
 
-export const validateTokenUser = async (req, res, next) => {
-
+exports.validateTokenUser = async (req, res, next) => {
     const pool = await connectDB();
     const { token } = req.params;
     try {

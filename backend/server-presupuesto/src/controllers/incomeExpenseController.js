@@ -1,8 +1,8 @@
-import { connectDB } from "../database/db";
-import { validationResult } from "express-validator";
+const connectDB = require('../database/db');
+const { validationResult } = require('express-validator');
 
 // All incomes or expense by user and specific account
-export const getAllIncomesExpenseByAccount = async (req, res, next) => {
+exports.getAllIncomesExpenseByAccount = async (req, res, next) => {
     // Connect DB
     const pool = await connectDB();
 
@@ -33,7 +33,7 @@ export const getAllIncomesExpenseByAccount = async (req, res, next) => {
 }
 
 // Get all the expenses and icomes by user and all accounts
-export const getAllIncomesExpensesByUser = async (req, res, next) => {
+exports.getAllIncomesExpensesByUser = async (req, res, next) => {
 
     // Get the connection
     const pool = await connectDB();
@@ -61,7 +61,7 @@ export const getAllIncomesExpensesByUser = async (req, res, next) => {
 }
 
 // add new income / expense
-export const addNewIncomeExpense = async (req, res, next) => {
+exports.addNewIncomeExpense = async (req, res, next) => {
     // Get the connection
     const pool = await connectDB();
 

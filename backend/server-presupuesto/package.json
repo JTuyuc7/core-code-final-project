@@ -4,7 +4,7 @@
   "description": "Backend for budget managment",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js --exec babel-node",
+    "dev": "nodemon index.js",
     "start": "node index.js"
   },
   "author": "Jaime Tuyuc",

@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { createUser, verifyUniqueEmail } from '../controllers/userController';
-import { check } from 'express-validator';
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
+const userController = require('../controllers/userController');
 
 // Routes to create a new User
 router.post('/', 
@@ -12,7 +12,7 @@ router.post('/',
         check('userEmail', 'Email is a required field').isEmail().normalizeEmail(),
         check('userPassword', 'Password is required and hast to be 6 min characters').isLength({ min: 6 }).not().isEmpty()
     ],
-    createUser
+    userController.createUser
 );
 
 // Verify the email
@@ -20,7 +20,7 @@ router.post('/check-email',
     [
         check('email', 'Please enter an email address').isEmail().not().isEmpty(),
     ],
-    verifyUniqueEmail
+    userController.verifyUniqueEmail
 )
 
-export default router;
+module.exports = router;

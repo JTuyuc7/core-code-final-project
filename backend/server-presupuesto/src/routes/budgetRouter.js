@@ -1,22 +1,21 @@
-import { Router } from "express";
-import { getAllBudgetAccounts, getSingleBudgetAccount, createBudgetAccount, getAllTypeAccounts} from "../controllers/budgetController";
-import { check } from "express-validator";
-
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const budgetController = require('../controllers/budgetController');
+const { check } = require('express-validator');
 
 // Ger all user budget accounts
 router.get('/all-accounts',
-    getAllBudgetAccounts,
+   budgetController.getAllBudgetAccounts,
 )
 
 // Get a single user budget account
 router.get('/single-account/:accountNumber', 
-    getSingleBudgetAccount
+    budgetController.getSingleBudgetAccount
 )
 
 // Get all account types
 router.get('/account-types',
-    getAllTypeAccounts
+    budgetController.getAllTypeAccounts
 )
 
 // Create a new user Budget account
@@ -26,7 +25,7 @@ router.post('/create-account',
         check('amount', 'Please enter the amount you would like to start with your account').isNumeric().not().isEmpty(),
         check('currency', 'Please select the type of currency you want to associate with this account').not().isEmpty()
     ],
-    createBudgetAccount
+    budgetController.createBudgetAccount
 )
 
-export default router;
+module.exports = router;

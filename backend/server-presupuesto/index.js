@@ -1,14 +1,14 @@
-import express from 'express';
-import config from './src/settings';
-import cors from 'cors';
-import createAccount from './src/routes/createAccountRoutes';
-import confirmAccountRoute from './src/routes/confirmAccountRoutes';
-import loginRoute from './src/routes/loginRoute';
-import budgetRoute from './src/routes/budgetRouter';
-import incomeExpenseRoute from './src/routes/incomeExpenseRoute';
-import transfersDepostisRoute from './src/routes/transfersDepositsRoute';
-import validateTokenRoute from './src/routes/validateToken';
-import { checkAuthUser } from './src/middlewares/checkAuthUser';
+const express = require('express');
+const config = require('./src/settings');
+const cors = require('cors');
+const createAccount = require('./src/routes/createAccountRoutes');
+const confirmAccountRoute = require('./src/routes/confirmAccountRoutes');
+const loginRoute = require('./src/routes/loginRoute');
+const budgetRoute = require('./src/routes/budgetRouter');
+const incomeExpenseRoute = require('./src/routes/incomeExpenseRoute');
+const transfersDepostisRoute = require('./src/routes/transfersDepositsRoute');
+const validateTokenRoute = require('./src/routes/validateToken');
+const checkAuthUser = require('./src/middlewares/checkAuthUser');
 
 // Define the app
 const app = express();

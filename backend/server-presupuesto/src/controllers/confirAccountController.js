@@ -1,4 +1,4 @@
-import { connectDB } from "../database/db";
+const connectDB = require('../database/db');
 
 async function checkValidToken (token) {
     const pool = await connectDB();
@@ -11,7 +11,7 @@ async function checkValidToken (token) {
     return { value: 1, user: result.rows[0]}
 }
 
-export const confirmAccount = async (req, res, next) => {
+exports.confirmAccount = async (req, res, next) => {
 
     // get the token from teh params url
     const { token } = req.params;

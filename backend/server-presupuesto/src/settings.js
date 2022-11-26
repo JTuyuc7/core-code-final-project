@@ -1,8 +1,8 @@
-import { config } from  'dotenv';
+const { config } = require('dotenv');
 
 config();
 
-export default {
+module.exports = {
     port: process.env.PORT || 4001,
     front_url: process.env.FRONT_END_URL,
     host: process.env.HOST,

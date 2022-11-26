@@ -1,11 +1,10 @@
-import { Router } from "express";
-import { getAllTransactions, newTransaction, findAccountReceiver, getAllTransactionsByAccount } from "../controllers/transfersDepositsController";
-import { check } from "express-validator";
-
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
+const transferController = require('../controllers/transfersDepositsController');
 
 router.get('/all',
-    getAllTransactions
+    transferController.getAllTransactions
 );
 
 // Make a Transfer
@@ -18,17 +17,17 @@ router.post('/transfer',
         //check('userTransferId', 'Sender ID is required to complete the transaction.').isNumeric().not().isEmpty(),
         check('userReceivedId', 'Receiver ID is required to complete the transaction.').isNumeric().not().isEmpty()
     ],
-    newTransaction
+    transferController.newTransaction
 );
 
 // Get the account to be transfered amount
 router.get('/find/:account', 
-    findAccountReceiver
+    transferController.findAccountReceiver
 );
 
 // Get all transfers and deposits by account
 router.get('/all/:account',
-    getAllTransactionsByAccount
+    transferController.getAllTransactionsByAccount
 )
 
-export default router;
+module.exports = router;

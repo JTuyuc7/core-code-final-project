@@ -1,8 +1,8 @@
-import { connectDB } from "../database/db";
-import { validationResult } from "express-validator";
+const connectDB = require('../database/db');
+const { validationResult } = require('express-validator');
 
 // Get all transactions by account
-export const getAllTransactionsByAccount = async (req, res, next) => {
+exports.getAllTransactionsByAccount = async (req, res, next) => {
     // DB coonection
     const pool = await connectDB();
 
@@ -23,7 +23,7 @@ export const getAllTransactionsByAccount = async (req, res, next) => {
         return res.json({ msg: 'You do not have permissions to get see the data of the selected account.'});
     }
 
-    let queryTransfersUniqueAccount = `SELECT "transfers"."movementId","transfers"."movementType","transfers".description,"transfers".amount,"transfers"."shippingAccount","transfers"."destinationAccount","transfers"."userTransferId","transfers"."userReceivedId", "transfers"."createdAt", "userBudget"."userID","userBudget"."userName","userBudget"."userLastName","userBudget"."userEmail" FROM "transfers"
+    let queryTransfersUniqueAccount = `SELECT "transfers"."movementId","transfers"."movementType","transfers"."description","transfers".amount,"transfers"."shippingAccount","transfers"."destinationAccount","transfers"."userTransferId","transfers"."userReceivedId", "transfers"."createdAt", "userBudget"."userID","userBudget"."userName","userBudget"."userLastName","userBudget"."userEmail" FROM "transfers"
         JOIN "userBudget"
         ON "userBudget"."userID" = "transfers"."userReceivedId" WHERE "transfers"."userTransferId" = ${userID} AND "transfers"."shippingAccount" = '${account}'`;
 
@@ -82,7 +82,7 @@ export const getAllTransactionsByAccount = async (req, res, next) => {
 }
 
 // Get all transactions by user
-export const getAllTransactions = async (req, res, next) => {
+exports.getAllTransactions = async (req, res, next) => {
 
     // Connect
     const pool = await connectDB();
@@ -131,7 +131,7 @@ export const getAllTransactions = async (req, res, next) => {
     }
 }
 
-export const findAccountReceiver = async (req, res, next) => {
+exports.findAccountReceiver = async (req, res, next) => {
     // DB connection
     const pool = await connectDB();
 
@@ -161,7 +161,7 @@ export const findAccountReceiver = async (req, res, next) => {
 }
 
 // Make a new transfer
-export const newTransaction = async (req, res, next) => {
+exports.newTransaction = async (req, res, next) => {
 
     // Connection
     const pool = await connectDB();

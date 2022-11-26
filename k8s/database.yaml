@@ -1,0 +1,214 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pg-pv-claim
+  labels:
+    app: budget-database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-cm
+data:
+  init.sql: | 
+    CREATE TABLE IF NOT EXISTS public."userBudget"
+    (
+      "userID" serial NOT NULL,
+      "userName" text COLLATE pg_catalog."default",
+      "userLastName" text COLLATE pg_catalog."default",
+      "userEmail" text COLLATE pg_catalog."default",
+      "userPassword" text COLLATE pg_catalog."default",
+      "userToken" text COLLATE pg_catalog."default",
+      "isAuthenticated" text COLLATE pg_catalog."default" DEFAULT 0,
+      "createdAt" timestamp with time zone DEFAULT now(),
+      PRIMARY KEY ("userID")
+    )
+
+    TABLESPACE pg_default;
+
+    ALTER TABLE IF EXISTS public."userBudget" OWNER to postgres;
+    
+    CREATE TABLE public."userAccounts"
+    (
+      "accountId" serial NOT NULL,
+      "accountNumber" character(8),
+      "accountType" text,
+      amount NUMERIC(10,2),
+      "belongsTo" serial,
+      currency text DEFAULT 'Dollar',
+      "createdAt" timestamp with time zone DEFAULT now(),
+      PRIMARY KEY ("accountId"),
+      CONSTRAINT "userBelongsTo" FOREIGN KEY ("belongsTo")
+        REFERENCES public."userBudget" ("userID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+    );
+    ALTER TABLE IF EXISTS public."userAccounts" OWNER to postgres;
+
+    CREATE TABLE public."incomeExpense"
+    (
+      "inExId" serial,
+      description text,
+      "inExType" text DEFAULT 'Expense',
+      amount NUMERIC(10,2),
+      "userBelongsTo" serial,
+      "inAccBelongsTo" character(8),
+      "createdAt" timestamp with time zone DEFAULT now(),
+      PRIMARY KEY ("inExId"),
+      CONSTRAINT "FKIdUser" FOREIGN KEY ("userBelongsTo")
+        REFERENCES public."userBudget" ("userID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+    );
+
+    ALTER TABLE IF EXISTS public."incomeExpense" OWNER to postgres;
+
+    CREATE TABLE public.deposits
+    (
+      "movementId" serial,
+      "movementType" text DEFAULT 'Deposit',
+      "description" text,
+      amount NUMERIC(10,2),
+      "shippingAccount" character(8),
+      "destinationAccount" character(8),
+      "userTransferId" serial,
+      "userReceivedId" serial,
+      "createdAt" timestamp with time zone DEFAULT now(),
+      PRIMARY KEY ("movementId"),
+        CONSTRAINT "KFuserTransferMade" FOREIGN KEY ("userTransferId")
+          REFERENCES public."userBudget" ("userID") MATCH SIMPLE
+          ON UPDATE NO ACTION
+          ON DELETE NO ACTION
+          NOT VALID,
+        CONSTRAINT "FKuserReceived" FOREIGN KEY ("userReceivedId")
+          REFERENCES public."userBudget" ("userID") MATCH SIMPLE
+          ON UPDATE NO ACTION
+          ON DELETE NO ACTION
+          NOT VALID
+    );
+
+    ALTER TABLE IF EXISTS public.deposits OWNER to postgres;
+
+    CREATE TABLE public.transfers
+    (
+      "movementId" serial,
+      "movementType" text DEFAULT 'Transfer',
+      "description" text,
+      amount NUMERIC(10,2),
+      "shippingAccount" character(8),
+      "destinationAccount" character(8),
+      "userTransferId" serial,
+      "userReceivedId" serial,
+      "createdAt" timestamp with time zone DEFAULT now(),
+      PRIMARY KEY ("movementId"),
+        CONSTRAINT "KFuserTransferMade" FOREIGN KEY ("userTransferId")
+          REFERENCES public."userBudget" ("userID") MATCH SIMPLE
+          ON UPDATE NO ACTION
+          ON DELETE NO ACTION
+          NOT VALID,
+        CONSTRAINT "FKuserReceived" FOREIGN KEY ("userReceivedId")
+          REFERENCES public."userBudget" ("userID") MATCH SIMPLE
+          ON UPDATE NO ACTION
+          ON DELETE NO ACTION
+          NOT VALID
+    );
+
+    ALTER TABLE IF EXISTS public.transfers OWNER to postgres;
+
+    CREATE TABLE public."accountTypes"
+    (
+      "typeAccountId" serial,
+      "typeAccount" text,
+      "createdAt" timestamp with time zone DEFAULT now(),
+      PRIMARY KEY ("typeAccountId")
+    );
+
+    ALTER TABLE IF EXISTS public."accountTypes" OWNER to postgres;
+
+    insert into "accountTypes" ("typeAccount") values ('Personal');
+    insert into "accountTypes" ("typeAccount") values ('Business');
+    insert into "accountTypes" ("typeAccount") values ('School');
+    insert into "accountTypes" ("typeAccount") values ('Travel');
+    insert into "accountTypes" ("typeAccount") values ('Family');
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budget-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: budget-database
+  template:
+    metadata:
+      labels:
+        app: budget-database
+    spec:
+      volumes:
+      - name: pg-persistent-storage
+        persistentVolumeClaim:
+          claimName: pg-pv-claim
+      - name: pg-cm-storage
+        configMap:
+          name: pg-cm
+      containers:
+      - name: budget-database
+        image: postgres:14.5
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pg-secrets
+                key: password
+          - name: PGDATA
+            value: "/var/lib/postgresql/data/pgdata"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "512m"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: pg-persistent-storage
+          mountPath: /var/lib/postgresql/data
+        - name: pg-cm-storage
+          mountPath: /docker-entrypoint-initdb.d
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: budget-database-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: budget-database
+  ports:
+  - port: 9000
+    targetPort: 5432
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pg-secrets
+type: Opaque
+data:
+  password: MTIzNDU2
+  port: NDAwMA==
+  front-url: aHR0cDovL2xvY2FsaG9zdDo4MDgw
+  # host: MTcyLjE3LjAuMyA==
+  user-db: cG9zdGdyZXM=
+  db-port: OTAwMA==
+  database: cG9zdGdyZXM=
+  secret-key: VGhpcy1zaG91bGQtYmUtYS12ZXJ5LWxvbmctYW5kLXJhbmRvbS1zZWNyZXQta2V5LXRvLXByb3RlY3QtYWdhaW5zdC1oYWNrZXItYWNjb3VudC1idXQtdGhpcy1pcy1qdXN0LWZvci1hLXRlc3RpbmctcHJvamVjdC1pbi1yZWFsLWxpZmUtaXQtc2hvdWxkLWJlLW1vcmUtY29tcGxleA==
+  email-key: J1NHLl94MjFtM1lkU1h1TzJCNWNld3NLd2cubk95S2JOSDB2ZHFXemJwY085a2pqeHluU1RKNl9Ga0hWOFJSd3A0THZCWSc=
+  react-app-url: aHR0cDovL2xvY2FsaG9zdDo0MDAw
+  currency-api: Nzg5Yjg2YjY2ZDk3NmRjZDhjNzcwNmRh

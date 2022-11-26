@@ -1,11 +1,10 @@
-import { Router } from "express";
-import { validateTokenUser } from "../controllers/validateTokenController";
-
-const router = Router();
+const express = require('express');
+const router = express.Router();
+const { validateTokenUser } = require('../controllers/validateTokenController');
 
 // Validate the token
 router.get('/:token',
     validateTokenUser
 )
 
-export default router;
+module.exports = router;
