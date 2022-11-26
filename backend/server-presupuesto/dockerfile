@@ -1,14 +1,14 @@
 FROM node:18-alpine3.15
 
-ENV PORT=4000 \
-    FRONT_END_URL=http://localhost:3000 \
-    HOST=172.17.0.2 \
-    USER_DB=postgres \
-    DB_PORT=5432 \
-    PASSWORD=123456 \
-    DATABASE=postgres \
-    SECRET_KEY_JWT=This-should-be-a-very-long-and-random-secret-key-to-protect-against-hacker-account-but-this-is-just-for-a-testing-project-in-real-life-it-should-be-more-complex \
-    EMAIL_API_KEY=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
+ENV PORT= \
+    FRONT_END_URL=\
+    HOST= \
+    USER_DB= \
+    DB_PORT= \
+    PASSWORD= \
+    DATABASE=\
+    SECRET_KEY_JWT= \
+    EMAIL_API_KEY=
 
 COPY . /opt/app
 

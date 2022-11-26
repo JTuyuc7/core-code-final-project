@@ -92,5 +92,8 @@ This is the front end project, here will be described step by step how the front
 https://user-images.githubusercontent.com/50525507/194188912-d64afa20-6582-4114-b966-7f84ade476de.mp4
 
 
-  
+### Want to build the docker image
+On the root of the project insert on the docker file the env variables
+REACT_APP_BACKEND_URL=<your variable of localhost> \
+REACT_APP_API_CURRENCY=<your currenci app key> 
   

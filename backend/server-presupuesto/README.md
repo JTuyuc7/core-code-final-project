@@ -110,3 +110,19 @@ once you have configurade this, at the root level of the project run <strong>npm
 ```shell
   docker run -d -p 4000:4000 backend:0.0.1 
 ```
+
+### Want to build the image?
+inside the docker file insert your env Variables
+```javascript
+PORT = //Port number example 4000
+FRONT_END_URL = // The url in which your frontend app is running
+HOST = // host name of postgres, example localhost
+USER_DB = // User of your postgres DB
+DB_PORT = // Port where your DB is exposed
+PASSWORD = // Your postgress password
+DATABASE = // Name of your DB
+SECRET_KEY_JWT = // Any secret key, this will be used to generated and sigh you JW
+EMAIL_API_KEY = // your @sendgrid/mail email api key
+```
+run the command
+docker build -t <your tag name> .
