@@ -14,18 +14,19 @@ spec:
     spec:
       containers:
       - name: budget-frontend
+        # image: jaimetuyuc1/b-frontend-amd:amd-gcp # GCP final version
         # image: jaimetuyuc1/b-frontend-amd:amd # For amd system
         image: jaimetuyuc1/b-fronted-arm:arm # Form arm system
         env:
           - name: REACT_APP_BACKEND_URL
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: react-app-url
           - name: REACT_APP_API_CURRENCY
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: currency-api
         resources:
           limits:

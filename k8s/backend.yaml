@@ -14,48 +14,49 @@ spec:
     spec:
       containers:
       - name: budget-backend
+        # image: jaimetuyuc1/b-backend-amd:amd-gcp # GCP final version
         # image: jaimetuyuc1/b-backend-amd:amd # Amd system
         image: jaimetuyuc1/b-budget-arm:arm1 # for arm system
         env:
           - name: PORT
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: port
           - name: FRONT_END_URL
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: front-url
           - name: USER_DB
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: user-db
           - name: DB_PORT
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: db-port
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: password
           - name: DATABASE
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: database
           - name: SECRET_KEY_JWT
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: secret-key
           - name: EMAIL_API_KEY
             valueFrom:
               secretKeyRef:
-                name: pg-secrets
+                name: pg-secrets-ag
                 key: email-key
           - name: HOST
             value: budget-database-service
