@@ -59,9 +59,13 @@ export const newTransactionService = createAsyncThunk(
             },
         };
         try {
-            console.log(values.data, 'en servicios')
             thunkApi.dispatch(accountActions.dipatchLoadingRequest(true));
-            await axiosClient.post(`/api/movements/transfer`, values.data, config);
+            const result = await axiosClient.post(`/api/movements/transfer`, values.data, config);
+            if (result.status === 200) {
+                toast.success(result.data.msg);
+            } else {
+                toast.warning(result.data.msg);
+            }
         } catch (error) {
             console.log(error, 'Unable to complete the request');
         } finally {
@@ -84,10 +88,7 @@ export const getDestinationAccountService = createAsyncThunk(
             },
         };
         try {
-            console.log(acc, 'llega aca')
             const result = await axiosClient.get(`/api/movements/find/${acc}`, config);
-            
-            console.log(result.data, typeof result.data, 'cuenta enctonrada ?')
             if (result.status === 200) {
                 thunkApi.dispatch(accountActions.dispatchUserTransferInfo(result.data))
             }

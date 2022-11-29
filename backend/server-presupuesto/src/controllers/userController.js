@@ -32,23 +32,23 @@ exports.createUser = async (req, res, next) => {
         // Create the new user
         let createUserQuery = 'INSERT INTO "userBudget" ("userName", "userLastName", "userEmail", "userPassword", "userToken", "isAuthenticated") VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
-        let values = [userName, userLastName, userEmail, hashPasword, userToken, '0' ];
+        let values = [userName, userLastName, userEmail, hashPasword, '', '1' ];
 
         const newUser = await pool.query(createUserQuery, values);
         
         if(newUser.rowCount === 0 ){
             res.status(400).json({ msg: 'something went wrong while creating your account.'})
         }else {
-             res.status(200).json({msg: 'Your account has created correctly, please check your email to confirm your account.'})
-            //res.status(200).json({msg: 'Your account has created correctly.'})
+            //res.status(200).json({msg: 'Your account has created correctly, please check your email to confirm your account.'})
+            res.status(200).json({msg: 'Your account has created correctly.'})
             // const { userName, userEmail, userToken, userLastName } = newUser.rows[0];
 
-            const msg = await sendMailConfirmation({
-                name: userName,
-                lastName: userLastName,
-                email: userEmail,
-                token: userToken,
-            })
+            //const msg = await sendMailConfirmation({
+            //    name: userName,
+            //    lastName: userLastName,
+            //    email: userEmail,
+            //    token: userToken,
+            //})
         }
 
     } catch (error) {

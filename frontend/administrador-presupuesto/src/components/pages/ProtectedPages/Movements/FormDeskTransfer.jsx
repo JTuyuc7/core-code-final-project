@@ -62,8 +62,20 @@ const FormNewTransfer = () => {
         transferObj.shippingAccount = selectedAcc.accountNumber;
         transferObj.destinationAccount = userTransferInfo.accountUser.accountNumber;
         transferObj.userReceivedId = userTransferInfo.accountUser.belongsTo;
-        console.log(transferObj, 'todas las validaciones pasaron');
         dispatch(newTransactionService({ data: transferObj }))
+        setTransferData({
+            shippingAccount: '',
+            destinationAccount: '',
+            amount: '',
+            description: '',
+            userReceivedId: '',
+            transferType: "Transfer",
+        });
+        setErrorData({
+            shippingAccountErr: false,
+            destinationAccountErr: false,
+            amountErr: false,
+        })
     }
 
     return (

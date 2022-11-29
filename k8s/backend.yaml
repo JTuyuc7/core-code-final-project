@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: budget-backend
-        image: jaimetuyuc/budget-backend-1:0.0.2
+        # image: jaimetuyuc1/b-backend-amd:amd # Amd system
+        image: jaimetuyuc1/b-budget-arm:arm1 # for arm system
         env:
           - name: PORT
             valueFrom:

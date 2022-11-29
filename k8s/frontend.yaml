@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: budget-frontend
-        image: jaimetuyuc/budget-frontend-1:0.0.2-alpine
+        # image: jaimetuyuc1/b-frontend-amd:amd # For amd system
+        image: jaimetuyuc1/b-fronted-arm:arm # Form arm system
         env:
           - name: REACT_APP_BACKEND_URL
             valueFrom:
