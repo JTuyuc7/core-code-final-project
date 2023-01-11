@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
       - name: budget-backend
-        # image: jaimetuyuc1/b-backend-amd:amd-gcp # GCP final version
+        image: jaimetuyuc1/b-backend-amd:amd-gcp1 # GCP final version
         # image: jaimetuyuc1/b-backend-amd:amd # Amd system
-        image: jaimetuyuc1/b-budget-arm:arm1 # for arm system
+        # image: jaimetuyuc1/b-budget-arm:arm1 # for arm system
         env:
           - name: PORT
             valueFrom:

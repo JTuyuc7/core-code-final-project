@@ -1,7 +1,5 @@
 FROM node:16-alpine3.15 as build
 
-ENV REACT_APP_BACKEND_URL= \
-    REACT_APP_API_CURRENCY=
 
 COPY . /opt/app
 

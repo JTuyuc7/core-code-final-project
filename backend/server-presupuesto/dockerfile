@@ -1,14 +1,14 @@
 FROM node:18.12-alpine3.15
 
-ENV PORT= \
-    FRONT_END_URL= \
-    HOST= \
-    USER_DB= \
-    DB_PORT= \
-    PASSWORD= \
-    DATABASE= \
-    SECRET_KEY_JWT= \
-    EMAIL_API_KEY=
+
+
+
+
+
+
+
+
+
 
 COPY . /opt/app
 
