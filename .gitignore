@@ -25,3 +25,5 @@ yarn-error.log*
 db
 info.txt
 /temp
+
+*/.env

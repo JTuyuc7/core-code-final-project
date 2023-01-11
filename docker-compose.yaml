@@ -1,14 +1,14 @@
 services:
   # Frontend
   frontend:
-    image: jaimetuyuc/b-frontend-arm:arm
+    image: frontend:alpine-arm
     ports:
-      - 3000:80
+      - 3030:80
     env_file:
       - compose-env-variables.env
   # Backend
   backend:
-    image: jaimetuyuc/b-backend-arm:arm
+    image: backendtest:latest
     ports:
       - 4000:4000
     env_file:
