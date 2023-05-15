@@ -97,3 +97,6 @@ On the root of the project insert on the docker file the env variables
 REACT_APP_BACKEND_URL=<your variable of localhost> \
 REACT_APP_API_CURRENCY=<your currenci app key> 
   
+
+##
+update some dependencies
